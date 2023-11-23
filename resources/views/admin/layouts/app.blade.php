@@ -7,14 +7,6 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Tuğran Demirel" name="author" />
-    <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ asset('assets/admin/images/favicon.ico') }}">
-
-    <!-- jsvectormap css -->
-    <link href="{{ asset('assets/admin/libs/jsvectormap/css/jsvectormap.min.css') }}" rel="stylesheet" type="text/css" />
-
-    <!--Swiper slider css-->
-    <link href="{{ asset('assets/admin/libs/swiper/swiper-bundle.min.css') }}" rel="stylesheet" type="text/css" />
 
     <!-- Layout config Js -->
     <script src="{{ asset('assets/admin/js/layout.js') }}"></script>
@@ -128,21 +120,12 @@
 <script src="{{ asset('assets/admin/js/pages/plugins/lord-icon-2.1.0.js') }}"></script>
 <script src="{{ asset('assets/admin/js/plugins.js') }}"></script>
 
-<!-- apexcharts -->
-<script src="{{ asset('assets/admin/libs/apexcharts/apexcharts.min.js') }}"></script>
-
-<!-- Vector map-->
-<script src="{{ asset('assets/admin/libs/jsvectormap/js/jsvectormap.min.js') }}"></script>
-<script src="{{ asset('assets/admin/libs/jsvectormap/maps/world-merc.js') }}"></script>
-
-<!--Swiper slider js-->
-<script src="{{ asset('assets/admin/libs/swiper/swiper-bundle.min.js') }}"></script>
-
 <!-- Dashboard init -->
 <script src="{{ asset('assets/admin/js/pages/dashboard-ecommerce.init.js') }}"></script>
 
 <!-- App js -->
 <script src="{{ asset('assets/admin/js/app.js') }}"></script>
+<script src="{{ asset('assets/admin/js/jquery-3.7.1.min.js') }}"></script>
 @yield('js')
 </body>
 </html>

@@ -47,8 +47,26 @@
                     <div class="collapse menu-dropdown" id="sidebarAuth">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="#sidebarSignIn" class="nav-link" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarSignIn" data-key="t-signin"> Kullanıcılar
+                                <a href="{{ route('admin.user.index') }}" class="nav-link"> Kullanıcılar
                                 </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-pages">Depo İşlemleri</span></li>
+
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarWarehpuse" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarAuth">
+                        <i class="ri-account-circle-line"></i> <span data-key="t-authentication">Depo</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarWarehpuse">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="{{ route('admin.warehouse.index') }}" class="nav-link"> Depolar</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.warehouseShelf.index') }}" class="nav-link"> Raflar</a>
                             </li>
                         </ul>
                     </div>
