@@ -38,8 +38,17 @@ class StoreController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-           'name' => 'required'
+            'image' => 'required',
+            'country_id' => 'required',
+            'name' => 'required',
+            'sku' => 'required',
         ]);
+        $data['user_id'] = auth()->user()->id;
+        $create = Store::create($data);
+        if ($create) {
+            return redirect()->route('admin.store.index')->with('success', 'Mağaza başarıyla oluşturuldu.');
+        }
+        return redirect()->route('admin.store.index')->with('error', 'Mağaza oluşturulurken bir hata oluştu.');
     }
 
     /**

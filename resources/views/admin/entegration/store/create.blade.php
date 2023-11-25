@@ -13,7 +13,7 @@
                 </div>
                 <div class="card-body">
 
-                    <form action="{{ route('admin.api.store') }}" method="POST">
+                    <form action="{{ route('admin.store.store') }}" method="POST">
                         @csrf
                         <div class="row">
                             <div class="col-12">
@@ -21,7 +21,7 @@
 
                                     @for($i=1;$i<=6;$i++)
                                     <label for="" class="img-btn">
-                                        <input type="radio" name="image" value="{{ $i }}">
+                                        <input type="radio" name="image" id="shop" value="{{ $i }}">
                                         <img class="avatar-md" src="{{ asset('assets/admin/images/store/'.$i.'.png') }}" alt="">
                                     </label>
                                     @endfor
@@ -32,10 +32,23 @@
                                         @enderror
                                 </div>
                             </div><!--end col-->
-                            <div class="col-md-12">
-                                <div id="imageContainer">
-                                    <!-- Resimler burada gösterilecek -->
-                                </div>
+                            <div class="col-md-12" id="amazon" style="display: none;">
+                                @for($i=1;$i<=21;$i++)
+                                    <label for="" class="img-btn">
+                                        <input type="radio" name="country_id" value="{{ $i }}">
+                                        <img class="avatar-md" src="{{ asset('assets/admin/images/country/'.$i.'.png') }}" alt="">
+                                    </label>
+                                @endfor
+                            </div>
+                            <div class="col-md-12" id="ebay" style="display: none;">
+                                    <label for="" class="img-btn">
+                                        <input type="radio" name="country_id" value="5">
+                                        <img class="avatar-md" src="{{ asset('assets/admin/images/country/5.png') }}" alt="">
+                                    </label>
+                                    <label for="" class="img-btn">
+                                        <input type="radio" name="country_id" value="21">
+                                        <img class="avatar-md" src="{{ asset('assets/admin/images/country/21.png') }}" alt="">
+                                    </label>
                             </div>
                             <div class="col-4">
                                 <div class="mb-3">
@@ -59,6 +72,20 @@
                                     @enderror
                                 </div>
                             </div><!--end col-->
+                            <div class="col-4">
+                                <div class="mb-3">
+                                    <label for="firstNameinput" class="form-label">Aktiflik Durumu</label>
+                                    <select name="is_active" class="form-select" id="">
+                                        <option value="1">Aktif</option>
+                                        <option value="0">Pasif</option>
+                                    </select>
+                                    @error('is_active')
+                                      <div class="text-danger">
+                                                <strong>{{ $message }}</strong>
+                                      </div>
+                                    @enderror
+                                </div>
+                            </div><!--end col-->
                             <div class="col-lg-12">
                                 <div class="text-end">
                                     <button type="submit" class="btn btn-primary">Link Now</button>
@@ -73,58 +100,18 @@
 @endsection
 @section('js')
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var form = document.getElementById('imageForm');
-            var imageContainer = document.getElementById('imageContainer');
-
-            form.addEventListener('change', function () {
-                var selectedOption = document.querySelector('input[name="option"]:checked').value;
-                hideAllImages();
-
-                if (selectedOption === '1') {
-                    let arr = [];
-                    for (var i = 1; i<=21; i++ )
-                    {
-                        arr[i] = i+'.jpg'
-                    }
-                    showSelectableImages(arr);
-                } else if (selectedOption === '2') {
-                    showSelectableImages(['image3.jpg', '21.png', '5.png']);
-                }
-                // Diğer durumları buraya ekleyebilirsiniz
-            });
-
-            function hideAllImages() {
-                imageContainer.innerHTML = '';
+        $('input[name="image"]').on('change', function() {
+            var value = $(this).val();
+            if(value == 1){
+                $('#amazon').show();
+                $('#ebay').hide();
+            }else if(value == 2){
+                $('#amazon').hide();
+                $('#ebay').show();
+            }else{
+                $('#amazon').hide();
+                $('#ebay').hide();
             }
-
-            function showSelectableImages(images) {
-                for (var i = 0; i < images.length; i++) {
-                    var img = document.createElement('img');
-                    img.src = '/public/images/store/' + images[i];
-                    img.classList.add('img-fluid');
-                    img.addEventListener('click', function () {
-                        selectImage(this.src);
-                    });
-                    imageContainer.appendChild(img);
-                }
-            }
-
-            function selectImage(path) {
-                // Seçilen resmi işleme ekleme
-                var selectedImage = document.querySelector('.selected-image');
-                if (selectedImage) {
-                    selectedImage.classList.remove('selected-image');
-                }
-
-                var img = document.querySelector('img[src="' + path + '"]');
-                img.classList.add('selected-image');
-
-                // Veritabanına kaydetme işlemi
-                var imagePath = path.replace('/public/images/store/', '');
-
-            }
-
         });
     </script>
 @endsection

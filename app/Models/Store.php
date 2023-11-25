@@ -18,9 +18,6 @@ class Store extends Model
         'country_id'
     ];
 
-    protected $casts = [
-        'image' => 'integer'
-    ];
 
     public function user(): BelongsTo
     {

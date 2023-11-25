@@ -47,6 +47,7 @@
                                     </th>
                                     <th class="sort d-none" data-sort="id" scope="col">Id</th>
                                     <th class="sort" data-sort="image" scope="col">Resim</th>
+                                    <th class="sort" data-sort="image" scope="col">Mağaza Ülke</th>
                                     <th class="sort" data-sort="name" scope="col">Mağaza Adı</th>
                                     <th class="sort" data-sort="name" scope="col">Mağaza SKU<th>
                                     <th class="sort" data-sort="user" scope="col">Oluşturan Kullanıcı</th>
@@ -63,7 +64,10 @@
                                             </div>
                                         </th>
                                         <td class="image" >
-                                                <img src="{{ asset('assets/admin/images/cargo/'.($key + 1).'.png') }}" alt="" class="avatar-sm">
+                                                <img src="{{ asset('assets/admin/images/store/'.($key + 1).'.png') }}" alt="" class="avatar-sm">
+                                        </td>
+                                        <td class="image" >
+                                                <img src="{{ asset('assets/admin/images/country/'.($key + 1).'.png') }}" alt="" class="avatar-sm">
                                         </td>
                                         <td class="name">{{ $value->name }}</td>
                                         <td class="sku">{{ $value->sku }}</td>
