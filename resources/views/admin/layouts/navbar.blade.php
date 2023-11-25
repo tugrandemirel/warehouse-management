@@ -105,6 +105,11 @@
                         <i class="ri-account-circle-line"></i> <span data-key="t-authentication">Kargo Entegrasyonu</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="{{ route('admin.store.index') }}">
+                        <i class="ri-account-circle-line"></i> <span data-key="t-authentication">Mağaza Entegrasyonu</span>
+                    </a>
+                </li>
             </ul>
         </div>
         <!-- Sidebar -->

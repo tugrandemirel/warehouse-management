@@ -104,4 +104,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(WarehouseShelfGroup::class);
     }
+
+    public function stores(): HasMany
+    {
+        return $this->hasMany(Store::class);
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Entegration\Store;
 
 use App\Http\Controllers\Controller;
+use App\Models\Store;
 use Illuminate\Http\Request;
 
 class StoreController extends Controller
@@ -14,7 +15,8 @@ class StoreController extends Controller
      */
     public function index()
     {
-        //
+        $stores = Store::where('user_id', auth()->user()->id)->get();
+        return view('admin.entegration.store.index', compact('stores'));
     }
 
     /**
@@ -24,7 +26,7 @@ class StoreController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.entegration.store.create');
     }
 
     /**
@@ -35,7 +37,9 @@ class StoreController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+           'name' => 'required'
+        ]);
     }
 
     /**

@@ -72,9 +72,9 @@ Route::prefix('admin')->as('admin.')->middleware('auth')->group(function (){
             Route::get('/', [StoreController::class, 'index'])->name('index');
             Route::get('/ekle', [StoreController::class, 'create'])->name('create');
             Route::post('/store', [StoreController::class, 'store'])->name('store');
-            Route::get('/duzenle/{api}', [StoreController::class, 'edit'])->name('edit');
-            Route::post('/update/{api}', [StoreController::class, 'update'])->name('update');
-            Route::post('/destroy/{api}', [StoreController::class, 'destroy'])->name('destroy');
+            Route::get('/duzenle/{store}', [StoreController::class, 'edit'])->name('edit');
+            Route::post('/update/{store}', [StoreController::class, 'update'])->name('update');
+            Route::post('/destroy/{store}', [StoreController::class, 'destroy'])->name('destroy');
         });
         Route::prefix('api')->as('api.')->group(function (){
             Route::get('/', [ApiController::class, 'index'])->name('index');
