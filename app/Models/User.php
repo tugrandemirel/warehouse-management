@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -53,7 +55,7 @@ class User extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function parent()
+    public function parent(): BelongsTo
     {
         return $this->belongsTo(User::class, 'parent_id');
     }
@@ -63,7 +65,7 @@ class User extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function children()
+    public function children(): HasMany
     {
         return $this->hasMany(User::class, 'parent_id');
     }
@@ -73,7 +75,7 @@ class User extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function warehouses()
+    public function warehouses(): HasMany
     {
         return $this->hasMany(Warehouse::class);
     }
@@ -83,10 +85,23 @@ class User extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function warehouseShelves()
+    public function warehouseShelves(): HasMany
     {
         return $this->hasMany(WarehouseShelf::class);
     }
 
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class);
+    }
 
+    public function api(): HasMany
+    {
+        return $this->hasMany(Api::class);
+    }
+
+    public function warehouseShelfGroups(): HasMany
+    {
+        return $this->hasMany(WarehouseShelfGroup::class);
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Warehouse;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\UserWarehouse;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
 
@@ -27,7 +28,10 @@ class WarehouseController extends Controller
      */
     public function create()
     {
-        return view('admin.warehouse.create');
+        $users = User::where(function ($query){
+            $query->where('parent_id', auth()->user()->id)->orWhere('id', auth()->user()->id);
+        })->get();
+        return view('admin.warehouse.create', compact('users'));
     }
 
     /**
@@ -41,6 +45,7 @@ class WarehouseController extends Controller
         $data = $request->validate([
             'name' => 'string|required|min:3|max:50',
             'description' => 'string|required|min:10|max:255',
+            'user_id' => 'required',
         ],[
             'name.required' => 'Depo adı alanı zorunludur.',
             'name.min' => 'Depo adı alanı en az 3 karakterden oluşmalıdır.',
@@ -49,10 +54,20 @@ class WarehouseController extends Controller
             'description.min' => 'Depo açıklaması alanı en az 10 karakterden oluşmalıdır.',
             'description.max' => 'Depo açıklaması alanı en fazla 255 karakterden oluşmalıdır.',
         ]);
+        $warehouseUsers = $data['user_id'];
         $data['user_id'] = auth()->user()->id;
         $create = Warehouse::create($data);
         if ($create)
+        {
+            foreach ($warehouseUsers as $warehouseUser)
+            {
+                UserWarehouse::create([
+                    'user_id' => $warehouseUser,
+                    'warehouse_id' => $create->id,
+                ]);
+            }
             return redirect()->route('admin.warehouse.index')->with('success', 'Depo başarıyla oluşturuldu.');
+        }
         else
             return redirect()->route('admin.warehouse.index')->with('error', 'Depo oluşturulurken bir hata oluştu.');
     }
@@ -76,7 +91,8 @@ class WarehouseController extends Controller
      */
     public function edit(Warehouse $warehouse)
     {
-        $warehouse = Warehouse::where('id', $warehouse->id)->where('user_id', auth()->user()->id)->first();
+        $warehouse = Warehouse::where('id', $warehouse->id)->where('user_id', auth()->user()->id)
+                    ->first();
         if (!$warehouse)
             return redirect()->route('admin.warehouse.index')->with('error', 'Depo bulunamadı.');
         return view('admin.warehouse.edit', compact('warehouse'));
@@ -95,6 +111,7 @@ class WarehouseController extends Controller
         $data = $request->validate([
             'name' => 'string|required|min:3|max:50',
             'description' => 'string|required|min:10|max:255',
+            'user_id' => 'required|exists:users,id',
         ],[
             'name.required' => 'Depo adı alanı zorunludur.',
             'name.min' => 'Depo adı alanı en az 3 karakterden oluşmalıdır.',

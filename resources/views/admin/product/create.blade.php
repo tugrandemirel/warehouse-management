@@ -19,7 +19,7 @@
         </div>
     </div>
     <div class="row justify-content-center">
-        <div class="col-lg-8">
+        <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
                      RAF EKLE
@@ -30,88 +30,94 @@
                             <div class="row">
                                 <div class="col-6">
                                     <div class="mb-3">
-                                        <label for="firstNameinput" class="form-label">Raf Adı</label>
+                                        <label for="firstNameinput" class="form-label">Ürün Adı</label>
                                         <input type="text" class="form-control  @error('name') is-invalid @enderror" name="name" id="name" placeholder="Raf Adı">
                                         @error('name')
-                                        <div class="text-danger">
-                                            <strong>{{ $message }}</strong>
-                                        </div>
+                                            <div class="text-danger">
+                                                <strong>{{ $message }}</strong>
+                                            </div>
                                         @enderror
                                     </div>
 
                                 </div><!--end col-->
+
                                 <div class="col-6">
                                     <div class="mb-3">
-                                        <label for="code" class="form-label">Raf Kodu</label>
+                                        <label for="code" class="form-label">Ürün Kodu</label>
                                         <input type="text" class="form-control  @error('code') is-invalid @enderror" name="code" id="code" placeholder="Raf Kodu" >
                                         @error('code')
-                                        <div class="text-danger">
-                                            <strong>{{ $message }}</strong>
-                                        </div>
+                                            <div class="text-danger">
+                                                <strong>{{ $message }}</strong>
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div><!--end col-->
+                                <div class="col-4">
+                                    <div class="mb-3">
+                                        <label for="price" class="form-label">Ürün Fiyatı</label>
+                                        <input type="number" class="form-control  @error('price') is-invalid @enderror" name="price" id="price" placeholder="Fiyat" >
+                                        @error('code')
+                                            <div class="text-danger">
+                                                <strong>{{ $message }}</strong>
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div><!--end col-->
+                                <div class="col-4">
+                                    <div class="mb-3">
+                                        <label for="price" class="form-label">Ürün KDV</label>
+                                        <input type="number" class="form-control  @error('vat') is-invalid @enderror" name="vat" id="vat" placeholder="KDV" >
+                                        @error('code')
+                                            <div class="text-danger">
+                                                <strong>{{ $message }}</strong>
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div><!--end col-->
+                                <div class="col-4">
+                                    <div class="mb-3">
+                                        <label for="price" class="form-label">Ürün Renk</label>
+                                        <input type="number" class="form-control  @error('price') is-invalid @enderror" name="price" id="price" placeholder="Fiyat" >
+                                        @error('code')
+                                            <div class="text-danger">
+                                                <strong>{{ $message }}</strong>
+                                            </div>
                                         @enderror
                                     </div>
                                 </div><!--end col-->
                                 <div class="col-6">
                                     <div class="mb-3">
-                                        <label for="is_active" class="form-label">Raf Aktifliği</label>
-                                        <select name="is_active" id="is_active" class="form-select  @error('is_active') is-invalid @enderror">
-                                            <option value="">SEÇİNİZ</option>
-                                            <option value="1">AKTİF</option>
-                                            <option value="0">PASİF</option>
-                                        </select>
-                                        @error('is_active')
-                                        <div class="text-danger">
-                                            <strong>{{ $message }}</strong>
-                                        </div>
+                                        <label for="price" class="form-label">Ürün Beden</label>
+                                        <input type="text" class="form-control  @error('size') is-invalid @enderror" name="size" id="size" placeholder="Beden" >
+                                        @error('code')
+                                            <div class="text-danger">
+                                                <strong>{{ $message }}</strong>
+                                            </div>
                                         @enderror
                                     </div>
                                 </div><!--end col-->
                                 <div class="col-6">
                                     <div class="mb-3">
-                                        <label for="firstNameinput" class="form-label">Depo</label>
-                                        <select name="warehouse_id" id="" class="form-select  @error('warehouse_id') is-invalid @enderror">
-                                            @foreach($warehouses as $warehouse)
-                                                <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('warehouse_id')
-                                        <div class="text-danger">
-                                            <strong>{{ $message }}</strong>
-                                        </div>
+                                        <label for="price" class="form-label">Ürün Numara</label>
+                                        <input type="number" class="form-control  @error('number') is-invalid @enderror" name="number" id="number" placeholder="Numara" >
+                                        @error('code')
+                                            <div class="text-danger">
+                                                <strong>{{ $message }}</strong>
+                                            </div>
                                         @enderror
                                     </div>
                                 </div><!--end col-->
-
                                 <div class="col-12">
                                     <div class="mb-3">
                                         <label for="compnayNameinput" class="form-label">Raf Açıklaması</label>
                                         <textarea name="description" id="description" cols="30" rows="10" class="form-control @error('description') is-invalid @enderror"></textarea>
                                         @error('description')
-                                        <div class="text-danger">
-                                            <strong>{{ $message }}</strong>
-                                        </div>
+                                            <div class="text-danger">
+                                                <strong>{{ $message }}</strong>
+                                            </div>
                                         @enderror
                                     </div>
-
                                 </div><!--end col-->
-                                <div class="col-12">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <label for="firstNameinput" class="form-label">Grup Olacak mı?
-                                            <input type="checkbox" id="shelfGroupControl" name="group" class="" ></label>
-                                        </div>
-
-                                        <div class="col-md-6" id="shelf_group_id" style="visibility: hidden">
-                                            <label for="firstNameinput" class="form-label">Gruplar?</label>
-                                            <select name="shelf_group_id" id="" class="form-select">
-                                                @foreach($shelfGroups as $shelfGroup)
-                                                    <option value="{{ $shelfGroup->id }}">{{ $shelfGroup->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-
-                                    </div>
-                                </div>
                                 <div class="col-lg-12">
                                     <div class="text-end">
                                         <button type="submit" class="btn btn-primary">Kaydet</button>
@@ -125,18 +131,6 @@
     </div>
 @endsection
 @section('js')
-    <script>
-        let shelfGroupControl = document.getElementById('shelfGroupControl');
-        let groupId = document.getElementById('shelf_group_id');
-        shelfGroupControl.addEventListener('change', function () {
-            if(shelfGroupControl.checked){
-                groupId.style.visibility = 'visible';
-            }
-            else{
-                groupId.style.visibility = 'hidden';
-            }
-        })
-    </script>
     <script>
         let warehouseStoreForm = document.getElementById('warehouseStoreForm');
         let name = document.getElementById('name');
@@ -194,7 +188,7 @@
             }
         });
         warehouseStoreForm.addEventListener('submit', function(e){
-            if(nameControl === false || descControl === false || is_activeControl === false || codeControl === false){
+            if(nameControl == false || descControl == false || is_activeControl == false || codeControl == false){
                 e.preventDefault();
                 Swal.fire({
                     icon: 'error',

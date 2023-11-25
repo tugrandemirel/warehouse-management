@@ -38,6 +38,20 @@
                                     @enderror
                                 </div><!--end col-->
 
+                                <div class="col-6">
+                                    <div class="mb-3">
+                                        <label for="firstNameinput" class="form-label">Depo Yetkilisi</label>
+                                        <select name="user_id[]" multiple id="" class="form-select">
+                                            @foreach($users as $user)
+                                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    @error('name')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div><!--end col-->
+
                                 <div class="col-12">
                                     <div class="mb-3">
                                         <label for="compnayNameinput" class="form-label">Depo Açıklaması</label>

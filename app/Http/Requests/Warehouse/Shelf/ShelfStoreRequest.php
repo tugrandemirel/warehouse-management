@@ -30,7 +30,9 @@ class ShelfStoreRequest extends FormRequest
             'description' => 'nullable|min:3|max:255',
             'code' => 'required|min:3|max:255',
             'warehouse_id' => 'required|exists:warehouses,id',
-            'is_active' => ['required', new Enum(WarehouseShelfIsActiveEnum::class)]
+            'is_active' => ['required', new Enum(WarehouseShelfIsActiveEnum::class)],
+            'group' => 'nullable',
+            'shelf_group_id' => 'nullable',
         ];
     }
 

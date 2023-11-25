@@ -3,7 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\Admin\Warehouse\WarehouseController;
+use App\Http\Controllers\Admin\Warehouse\WarehouseShelfGroupController;
 use App\Http\Controllers\Admin\Warehouse\WarehouseShelfController;
+use App\Http\Controllers\Admin\Product\ProductController;
+use App\Http\Controllers\Admin\Api\ApiController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -38,6 +41,14 @@ Route::prefix('admin')->as('admin.')->middleware('auth')->group(function (){
         Route::post('/update/{warehouse}', [WarehouseController::class, 'update'])->name('update');
         Route::post('/destroy/{warehouse}', [WarehouseController::class, 'destroy'])->name('destroy');
     });
+    Route::prefix('raf-grup')->as('shelfGroup.')->group(function (){
+        Route::get('/', [WarehouseShelfGroupController::class, 'index'])->name('index');
+        Route::get('/ekle', [WarehouseShelfGroupController::class, 'create'])->name('create');
+        Route::post('/store', [WarehouseShelfGroupController::class, 'store'])->name('store');
+        Route::get('/duzenle/{shelfGroup}', [WarehouseShelfGroupController::class, 'edit'])->name('edit');
+        Route::post('/update/{shelfGroup}', [WarehouseShelfGroupController::class, 'update'])->name('update');
+        Route::post('/destroy/{shelfGroup}', [WarehouseShelfGroupController::class, 'destroy'])->name('destroy');
+    });
     Route::prefix('raf')->as('warehouseShelf.')->group(function (){
         Route::get('/', [WarehouseShelfController::class, 'index'])->name('index');
         Route::get('/ekle', [WarehouseShelfController::class, 'create'])->name('create');
@@ -46,5 +57,20 @@ Route::prefix('admin')->as('admin.')->middleware('auth')->group(function (){
         Route::post('/update/{warehouseShelf}', [WarehouseShelfController::class, 'update'])->name('update');
         Route::post('/destroy/{warehouseShelf}', [WarehouseShelfController::class, 'destroy'])->name('destroy');
     });
-
+    Route::prefix('ürün')->as('product.')->group(function (){
+        Route::get('/', [ProductController::class, 'index'])->name('index');
+        Route::get('/ekle', [ProductController::class, 'create'])->name('create');
+        Route::post('/store', [ProductController::class, 'store'])->name('store');
+        Route::get('/duzenle/{product}', [ProductController::class, 'edit'])->name('edit');
+        Route::post('/update/{product}', [ProductController::class, 'update'])->name('update');
+        Route::post('/destroy/{product}', [ProductController::class, 'destroy'])->name('destroy');
+    });
+    Route::prefix('entegrasyon/api')->as('api.')->group(function (){
+        Route::get('/', [ApiController::class, 'index'])->name('index');
+        Route::get('/ekle', [ApiController::class, 'create'])->name('create');
+        Route::post('/store', [ApiController::class, 'store'])->name('store');
+        Route::get('/duzenle/{api}', [ApiController::class, 'edit'])->name('edit');
+        Route::post('/update/{api}', [ApiController::class, 'update'])->name('update');
+        Route::post('/destroy/{api}', [ApiController::class, 'destroy'])->name('destroy');
+    });
 });

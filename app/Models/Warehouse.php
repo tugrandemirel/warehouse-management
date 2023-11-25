@@ -25,4 +25,19 @@ class Warehouse extends Model
     {
         return $this->hasMany(WarehouseShelf::class);
     }
+
+    public function warehouseShelfGroups()
+    {
+        return $this->hasMany(WarehouseShelfGroup::class);
+    }
+
+    public function warehouseShelfGroup()
+    {
+        return $this->belongsTo(WarehouseShelfGroup::class);
+    }
+
+    public function userWarehouses()
+    {
+        return $this->hasMany(UserWarehouse::class);
+    }
 }

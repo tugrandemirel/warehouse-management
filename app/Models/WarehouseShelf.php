@@ -17,6 +17,7 @@ class WarehouseShelf extends Model
         'description',
         'code',
         'is_active',
+        'shelf_group_id'
     ];
 
     protected $casts = [
@@ -32,5 +33,9 @@ class WarehouseShelf extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function warehouseShelfGroup()
+    {
 
+        return $this->belongsTo(WarehouseShelfGroup::class);
+    }
 }

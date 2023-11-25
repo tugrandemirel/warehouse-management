@@ -6,6 +6,7 @@ use App\Enum\Warehouse\Shelf\WarehouseShelfIsActiveEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Warehouse\Shelf\ShelfStoreRequest;
 use App\Models\WarehouseShelf;
+use App\Models\WarehouseShelfGroup;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Enum;
 
@@ -32,8 +33,8 @@ class WarehouseShelfController extends Controller
     public function create()
     {
         $warehouses = auth()->user()->warehouses;
-
-        return view('admin.warehouse.shelf.create', compact('warehouses'));
+        $shelfGroups = WarehouseShelfGroup::where('user_id', auth()->user()->id)->get();
+        return view('admin.warehouse.shelf.create', compact('warehouses', 'shelfGroups'));
     }
 
     /**
@@ -47,6 +48,12 @@ class WarehouseShelfController extends Controller
                 // dd($request->all());
         $data = $request->except('_token');
         $data['user_id'] = auth()->user()->id;
+        if (isset($data['group']))
+        {
+            unset($data['group']);
+        }else{
+            $data['shelf_group_id'] = null;
+        }
         $create = WarehouseShelf::create($data);
 
         if($create){
