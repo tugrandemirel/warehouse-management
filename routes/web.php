@@ -1,12 +1,14 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\Entegration\Api\ApiController;
+use App\Http\Controllers\Admin\Entegration\Store\StoreController;
+use App\Http\Controllers\Admin\Product\ProductController;
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\Admin\Warehouse\WarehouseController;
-use App\Http\Controllers\Admin\Warehouse\WarehouseShelfGroupController;
 use App\Http\Controllers\Admin\Warehouse\WarehouseShelfController;
-use App\Http\Controllers\Admin\Product\ProductController;
-use App\Http\Controllers\Admin\Api\ApiController;
+use App\Http\Controllers\Admin\Warehouse\WarehouseShelfGroupController;
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -65,12 +67,23 @@ Route::prefix('admin')->as('admin.')->middleware('auth')->group(function (){
         Route::post('/update/{product}', [ProductController::class, 'update'])->name('update');
         Route::post('/destroy/{product}', [ProductController::class, 'destroy'])->name('destroy');
     });
-    Route::prefix('entegrasyon/api')->as('api.')->group(function (){
-        Route::get('/', [ApiController::class, 'index'])->name('index');
-        Route::get('/ekle', [ApiController::class, 'create'])->name('create');
-        Route::post('/store', [ApiController::class, 'store'])->name('store');
-        Route::get('/duzenle/{api}', [ApiController::class, 'edit'])->name('edit');
-        Route::post('/update/{api}', [ApiController::class, 'update'])->name('update');
-        Route::post('/destroy/{api}', [ApiController::class, 'destroy'])->name('destroy');
+    Route::prefix('entegrasyon')->group(function (){
+        Route::prefix('magaza')->as('store.')->group(function (){
+            Route::get('/', [StoreController::class, 'index'])->name('index');
+            Route::get('/ekle', [StoreController::class, 'create'])->name('create');
+            Route::post('/store', [StoreController::class, 'store'])->name('store');
+            Route::get('/duzenle/{api}', [StoreController::class, 'edit'])->name('edit');
+            Route::post('/update/{api}', [StoreController::class, 'update'])->name('update');
+            Route::post('/destroy/{api}', [StoreController::class, 'destroy'])->name('destroy');
+        });
+        Route::prefix('api')->as('api.')->group(function (){
+            Route::get('/', [ApiController::class, 'index'])->name('index');
+            Route::get('/ekle', [ApiController::class, 'create'])->name('create');
+            Route::post('/store', [ApiController::class, 'store'])->name('store');
+            Route::get('/duzenle/{api}', [ApiController::class, 'edit'])->name('edit');
+            Route::post('/update/{api}', [ApiController::class, 'update'])->name('update');
+            Route::post('/destroy/{api}', [ApiController::class, 'destroy'])->name('destroy');
+        });
+
     });
 });

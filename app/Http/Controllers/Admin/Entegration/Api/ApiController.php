@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Api;
+namespace App\Http\Controllers\Admin\Entegration\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Api;
@@ -18,7 +18,7 @@ class ApiController extends Controller
         $apis = Api::with(['user' => function($query){
             $query->where('id', auth()->user()->id);
         }])->get();
-        return view('admin.api.index', compact('apis'));
+        return view('admin.entegration.api.index', compact('apis'));
     }
 
     /**
@@ -28,7 +28,7 @@ class ApiController extends Controller
      */
     public function create()
     {
-        return view('admin.api.create');
+        return view('admin.entegration.api.create');
     }
 
     /**
@@ -54,11 +54,11 @@ class ApiController extends Controller
         $create = Api::create($data);
         if ($create)
         {
-            return redirect()->route('admin.api.index')->with('success', 'Api başarıyla oluşturuldu.');
+            return redirect()->route('admin.entegration.api.index')->with('success', 'Api başarıyla oluşturuldu.');
         }
         else
         {
-            return redirect()->route('admin.api.index')->with('error', 'Api oluşturulurken bir hata oluştu.');
+            return redirect()->route('admin.entegration.api.index')->with('error', 'Api oluşturulurken bir hata oluştu.');
         }
     }
 
@@ -71,7 +71,7 @@ class ApiController extends Controller
      */
     public function edit(Api $api)
     {
-        return view('admin.api.edit', compact('api'));
+        return view('admin.entegration.api.edit', compact('api'));
     }
 
     /**
@@ -97,11 +97,11 @@ class ApiController extends Controller
         $update = $api->update($data);
         if ($update)
         {
-            return redirect()->route('admin.api.index')->with('success', 'Api başarıyla güncellendi.');
+            return redirect()->route('admin.entegration.api.index')->with('success', 'Api başarıyla güncellendi.');
         }
         else
         {
-            return redirect()->route('admin.api.index')->with('error', 'Api güncellenirken bir hata oluştu.');
+            return redirect()->route('admin.entegration.api.index')->with('error', 'Api güncellenirken bir hata oluştu.');
         }
     }
 
