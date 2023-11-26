@@ -12,17 +12,6 @@ class Product extends Model
     protected $fillable = [
         'user_id',
         'name',
-        'code',
-        'price',
-        'description',
-        'color',
-        'size',
-        'number',
-        'vat',
-    ];
-
-    protected $casts = [
-        'price' => 'decimal:2',
     ];
 
     public function user()
