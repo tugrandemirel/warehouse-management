@@ -21,7 +21,8 @@
     </div>
     <!-- end page title -->
 
-    <form action="" >
+    <form action="{{ route('admin.product.store') }}" method="POST">
+        @csrf
         <div class="row">
             <div class="col-lg-8">
                 <div class="card">
