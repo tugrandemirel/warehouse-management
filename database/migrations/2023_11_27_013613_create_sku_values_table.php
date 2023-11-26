@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('sku_id')->constrained('skus')->onDelete('cascade');
             $table->foreignId('variant_id')->constrained('variants')->onDelete('cascade');
             $table->foreignId('variant_group_id')->constrained('variant_groups')->onDelete('cascade');
+            $table->foreignId('variant_option_id')->constrained('variant_options')->onDelete('cascade');
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
             $table->foreignId('warehouse_id')->constrained('warehouses')->onDelete('cascade');
             $table->foreignId('warehouse_shelf_id')->constrained('warehouse_shelves')->onDelete('cascade');

@@ -35,6 +35,35 @@ class Product extends Model
         return $this->hasManyThrough(Sku::class, Variant::class);
     }
 
+    public function skuValues()
+    {
+        return $this->hasManyThrough(SkuValue::class, Variant::class);
+    }
+
+    public function warehouses()
+    {
+        return $this->belongsToMany(Warehouse::class, 'sku_values');
+    }
+
+    public function warehouseShelves()
+    {
+        return $this->belongsToMany(WarehouseShelf::class, 'sku_values');
+    }
+
+    public function warehouseShelfGroups()
+    {
+        return $this->belongsToMany(WarehouseShelfGroup::class, 'sku_values');
+    }
+
+    public function getVariantGroupsAttribute()
+    {
+        return $this->variantGroups()->get();
+    }
+
+    public function getSkusAttribute()
+    {
+        return $this->skus()->get();
+    }
 
 
 }

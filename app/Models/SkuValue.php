@@ -18,5 +18,51 @@ class SkuValue extends Model
         'warehouse_id',
         'warehouse_shelf_id',
         'warehouse_shelf_group_id',
+        'variant_option_id'
     ];
+
+    public function sku()
+    {
+        return $this->belongsTo(Sku::class);
+    }
+
+    public function variant()
+    {
+        return $this->belongsTo(Variant::class);
+    }
+
+    public function variantGroup()
+    {
+        return $this->belongsTo(VariantGroup::class);
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class);
+    }
+
+    public function warehouseShelf()
+    {
+        return $this->belongsTo(WarehouseShelf::class);
+    }
+
+    public function warehouseShelfGroup()
+    {
+        return $this->belongsTo(WarehouseShelfGroup::class);
+    }
+
+    public function variantOption()
+    {
+        return $this->belongsTo(VariantOption::class);
+    }
+
+    public function getVariantOptionAttribute()
+    {
+        return $this->variantOption()->get();
+    }
 }
