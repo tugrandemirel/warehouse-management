@@ -16,7 +16,16 @@ class Sku extends Model
         'stock',
         'description',
         'image',
+        'user_id',
+        'product_id',
+        'slug',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 
     public function product()
     {

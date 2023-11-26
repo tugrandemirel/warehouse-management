@@ -18,8 +18,14 @@ class SkuValue extends Model
         'warehouse_id',
         'warehouse_shelf_id',
         'warehouse_shelf_group_id',
-        'variant_option_id'
+        'variant_option_id',
+        'user_id'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function sku()
     {

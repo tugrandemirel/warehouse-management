@@ -13,7 +13,15 @@ class Variant extends Model
     protected $fillable = [
         'variant_group_id',
         'product_id',
+        'name',
+        'slug',
+        'user_id'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function variantGroup()
     {
@@ -54,4 +62,6 @@ class Variant extends Model
     {
         return $this->variantOptions()->get();
     }
+
+
 }

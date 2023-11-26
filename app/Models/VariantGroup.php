@@ -11,7 +11,9 @@ class VariantGroup extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'name'
+        'name',
+        'slug',
+        'user_id',
     ];
 
     public function variants()

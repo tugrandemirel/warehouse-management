@@ -13,6 +13,9 @@ class VariantOption extends Model
     protected $fillable = [
         'variant_id',
         'product_id',
+        'name',
+        'slug',
+        'user_id'
     ];
 
     public function variant()

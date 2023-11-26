@@ -15,7 +15,9 @@ return new class extends Migration
     {
         Schema::create('variant_groups', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('name');
+            $table->string('slug');
             $table->softDeletes();
             $table->timestamps();
         });

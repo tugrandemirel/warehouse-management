@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('sku_values', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('sku_id')->constrained('skus')->onDelete('cascade');
             $table->foreignId('variant_id')->constrained('variants')->onDelete('cascade');
             $table->foreignId('variant_group_id')->constrained('variant_groups')->onDelete('cascade');

@@ -15,7 +15,9 @@ return new class extends Migration
     {
         Schema::create('skus', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+            $table->string('slug');
             $table->string('sku');
             $table->decimal('price', 10, 2);
             $table->integer('stock');

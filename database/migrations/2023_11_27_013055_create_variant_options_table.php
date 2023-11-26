@@ -15,9 +15,11 @@ return new class extends Migration
     {
         Schema::create('variant_options', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('variant_id')->constrained('variants')->onDelete('cascade');
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
             $table->string('name');
+            $table->string('slug');
             $table->softDeletes();
             $table->timestamps();
         });
