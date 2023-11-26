@@ -7,12 +7,12 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Create Product</h4>
+                <h4 class="mb-sm-0">Ürün Ekle</h4>
 
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Ecommerce</a></li>
-                        <li class="breadcrumb-item active">Create Product</li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">ADMİN</a></li>
+                        <li class="breadcrumb-item active">ÜRÜN EKLE</li>
                     </ol>
                 </div>
 
@@ -21,7 +21,7 @@
     </div>
     <!-- end page title -->
 
-    <form action="" autocomplete="off" class="needs-validation" novalidate>
+    <form action="" >
         <div class="row">
             <div class="col-lg-8">
                 <div class="card">
@@ -78,13 +78,13 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="manufacturer-name-input">Üretici Adı</label>
+                                            <label class="form-label">Üretici Adı</label>
                                             <input type="text" class="form-control" name="manufacturer_name" value="{{ old('manufacturer_name') }}" placeholder="Lütfen üretici adı giriniz">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="manufacturer-brand-input">Üretici Marka</label>
+                                            <label class="form-label">Üretici Marka</label>
                                             <input type="text" class="form-control" name="manufacturer_brand" value="{{ old('manufacturer_brand') }}" placeholder="Lütfen üretici marka giriniz">
                                         </div>
                                     </div>
@@ -94,9 +94,9 @@
                                 <div class="row">
                                     <div class="col-lg-6 col-sm-12">
                                         <div class="mb-3">
-                                            <label class="form-label" for="product-price-input">Fiyat</label>
+                                            <label class="form-label" >Fiyat</label>
                                             <div class="input-group has-validation mb-3">
-                                                <span class="input-group-text" id="product-price-addon">$</span>
+                                                <span class="input-group-text">$</span>
                                                 <input type="text" class="form-control" name="price" value="{{ old('price') }}" placeholder="Fiyat Giriniz" aria-label="Price" aria-describedby="product-price-addon" required>
                                                 <div class="invalid-feedback">Lütfen fiyat giriniz.</div>
                                             </div>
@@ -105,7 +105,7 @@
                                     </div>
                                     <div class="col-lg-6 col-sm-12">
                                         <div class="mb-3">
-                                            <label class="form-label" for="orders-input">Ürün Kodu</label>
+                                            <label class="form-label">Ürün Kodu</label>
                                             <input type="text" class="form-control" name="code" placeholder="Ürün Kodu" value="{{ old('code') }}" required>
                                             <div class="invalid-feedback">Lütfen ürün kodunu giriniz.</div>
                                         </div>
@@ -120,7 +120,7 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="meta-title-input">Meta Başlık</label>
+                                            <label class="form-label">Meta Başlık</label>
                                             <input type="text" class="form-control" name="meta_title" value="{{ old('meta_title') }}" placeholder="Enter meta title" >
                                         </div>
                                     </div>
@@ -128,7 +128,7 @@
 
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="meta-keywords-input">Meta Anahtar Kelimeler</label>
+                                            <label class="form-label">Meta Anahtar Kelimeler</label>
                                             <input type="text" class="form-control" name="meta_keywords" placeholder="Lütfen meta Anahtar kelime giriniz">
                                         </div>
                                     </div>
@@ -137,7 +137,7 @@
                                 <!-- end row -->
 
                                 <div>
-                                    <label class="form-label" for="meta-description-input">Meta Açıklama</label>
+                                    <label class="form-label">Meta Açıklama</label>
                                     <textarea class="form-control" name="meta_description" placeholder="Lütfen meta açıklama giriniz" rows="3"></textarea>
                                 </div>
                             </div>
@@ -162,7 +162,7 @@
                         <div class="mb-3">
                             <label for="choices-publish-status-input" class="form-label">Durum</label>
 
-                            <select class="form-select" name="publish" data-choices data-choices-search-false>
+                            <select class="form-select" name="publish">
                                 <option value="Published" selected>Yayınla</option>
                                 <option value="Scheduled">Yayınlama</option>
                             </select>
@@ -170,7 +170,7 @@
 
                         <div>
                             <label for="choices-publish-visibility-input" class="form-label">Görünürlük</label>
-                            <select class="form-select" name="visibility" data-choices data-choices-search-false>
+                            <select class="form-select" name="visibility">
                                 <option value="Public" selected>Herkese Açık</option>
                                 <option value="Hidden">Gizli</option>
                             </select>
