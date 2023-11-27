@@ -16,7 +16,8 @@ class VariantGroupController extends Controller
      */
     public function index()
     {
-        $variantGroups = VariantGroup::where('user_id', auth()->user()->id)->get();
+        $variantGroups = VariantGroup::where('user_id', auth()->user()->id)
+                        ->get();
         return view('admin.product.variant.group.index', compact('variantGroups'));
     }
 
