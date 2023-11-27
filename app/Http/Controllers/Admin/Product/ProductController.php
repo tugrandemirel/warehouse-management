@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin\Product;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\SkuValue;
+use App\Models\VariantGroup;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class ProductController extends Controller
 {
@@ -35,7 +37,10 @@ class ProductController extends Controller
      */
     public function create()
     {
-                return view('admin.product.create');
+        $variantGroups = Cache::get('variantGroups', function () {
+            return VariantGroup::where('user_id', auth()->user()->id)->get();
+        });
+        return view('admin.product.create', 'variantGroups');
     }
 
     /**
