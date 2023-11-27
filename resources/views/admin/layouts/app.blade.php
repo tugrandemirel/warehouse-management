@@ -18,6 +18,8 @@
     <link href="{{ asset('assets/admin/css/app.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- custom Css-->
     <link href="{{ asset('assets/admin/css/custom.min.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset('assets/admin/libs/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
     @yield('css')
 </head>
 
@@ -119,6 +121,7 @@
 <script src="{{ asset('assets/admin/libs/feather-icons/feather.min.js') }}"></script>
 <script src="{{ asset('assets/admin/js/pages/plugins/lord-icon-2.1.0.js') }}"></script>
 <script src="{{ asset('assets/admin/js/plugins.js') }}"></script>
+<script src="{{ asset('assets/admin/libs/sweetalert2/sweetalert2.min.js') }}"></script>
 
 <!-- Dashboard init -->
 <script src="{{ asset('assets/admin/js/pages/dashboard-ecommerce.init.js') }}"></script>

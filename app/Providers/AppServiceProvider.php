@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\VariantGroup;
+use App\Observers\Product\Variant\VariantGroupObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +25,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        VariantGroup::observe(VariantGroupObserver::class);
     }
 }
