@@ -14,6 +14,7 @@ class VariantGroupObserver
      */
     public function saving(VariantGroup $variantGroup)
     {
+        $variantGroup->name = ucwords(strtolower($variantGroup->name));
         $variantGroup->user_id = auth()->user()->id;
         $variantGroup->slug = str_slug($variantGroup->name);
     }

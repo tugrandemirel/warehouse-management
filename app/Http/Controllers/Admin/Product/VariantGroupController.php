@@ -47,25 +47,14 @@ class VariantGroupController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(VariantGroup $variantGroup)
     {
-        //
+        return view('admin.product.variant.group.create', compact('variantGroup'));
     }
 
     /**
@@ -75,9 +64,14 @@ class VariantGroupController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, VariantGroup $variantGroup)
     {
-        //
+        $data = $request->validate(['name'=>'required']);
+        $update = $variantGroup->update($data);
+        if(!$update){
+            return redirect()->route('admin.product.variant.group.index')->with('error', 'Varyant grubu güncellenirken bir hata oluştu.');
+        }
+        return redirect()->route('admin.product.variant.group.index')->with('success', 'Varyant grubu başarıyla güncellendi.');
     }
 
     /**
@@ -86,9 +80,13 @@ class VariantGroupController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(VariantGroup $variantGroup)
     {
-        //
+        $delete = $variantGroup->delete();
+        if ($delete)
+            return response()->json(['status' => true, 'message' => 'Varyant Grup başarıyla silindi.']);
+        else
+            return response()->json(['status' => false, 'message' => 'Varyant Grup silinirken bir hata oluştu.']);
     }
 
 }

@@ -22,16 +22,16 @@
         <div class="col-lg-8">
             <div class="card">
                 <div class="card-header">
-                     VARYANT GRUP EKLE
+                     VARYANT GRUP {{ isset($variantGroup) ? 'GÜNCELLE' : 'EKLE' }}
                 </div>
                 <div class="card-body">
-                        <form action="{{ route('admin.product.variant.group.store') }}" id="group" method="POST">
+                        <form action="{{ isset($variantGroup) ? route('admin.product.variant.group.update', ['variantGroup' => $variantGroup]) : route('admin.product.variant.group.store') }}" id="group" method="POST">
                             @csrf
                             <div class="row">
                                 <div class="col-6">
                                     <div class="mb-3">
                                         <label for="firstNameinput" class="form-label">Grup Adı</label>
-                                        <input type="text" class="form-control  @error('name') is-invalid @enderror" name="name" id="name" placeholder="Grup Adı">
+                                        <input type="text" class="form-control  @error('name') is-invalid @enderror" name="name" value="{{ isset($variantGroup) ? $variantGroup->name : old('name') }}" id="name" placeholder="Grup Adı">
                                         @error('name')
                                         <div class="text-danger">
                                             <strong>{{ $message }}</strong>
@@ -42,7 +42,7 @@
                                 </div><!--end col-->
                                 <div class="col-lg-12">
                                     <div class="text-end">
-                                        <button type="submit" class="btn btn-primary">Kaydet</button>
+                                        <button type="submit" class="btn btn-primary">{{ isset($variantGroup) ? 'Güncelle' : 'Kaydet' }}</button>
                                     </div>
                                 </div><!--end col-->
                             </div><!--end row-->
