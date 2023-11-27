@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Product;
+namespace App\Http\Controllers\Admin\Product\Variant;
 
 use App\Http\Controllers\Controller;
 use App\Models\VariantGroup;
@@ -27,7 +27,7 @@ class VariantGroupController extends Controller
      */
     public function create()
     {
-        return view('admin.product.variant.group.create');
+        return view('admin.product.variant.group.create-edit');
     }
 
     /**
@@ -54,7 +54,7 @@ class VariantGroupController extends Controller
      */
     public function edit(VariantGroup $variantGroup)
     {
-        return view('admin.product.variant.group.create', compact('variantGroup'));
+        return view('admin.product.variant.group.create-edit', compact('variantGroup'));
     }
 
     /**
