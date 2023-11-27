@@ -37,10 +37,12 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $variantGroups = Cache::get('variantGroups', function () {
-            return VariantGroup::where('user_id', auth()->user()->id)->get();
+        $variantGroups = Cache::remember('variantGroups', now()->addHours(1) ,function () {
+            return VariantGroup::where('user_id', auth()->user()->id)
+                ->select('id', 'name')
+                ->get();
         });
-        return view('admin.product.create', 'variantGroups');
+        return view('admin.product.create', compact('variantGroups'));
     }
 
     /**

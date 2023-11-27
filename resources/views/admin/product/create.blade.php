@@ -157,6 +157,34 @@
             <div class="col-lg-4">
                 <div class="card">
                     <div class="card-header">
+                        <h5 class="card-title mb-0">Variant Grubu</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="choices-publish-status-input" class="form-label">Grup Seçimi</label>
+
+                            <select class="form-select" name="publish">
+                                @if(\Illuminate\Support\Facades\Cache::has('variantGroups'))
+                                    @foreach($variantGroups as $variantGroup)
+                                        <option value="{{ $variantGroup->id }}">{{ $variantGroup->name }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="choices-publish-visibility-input" class="form-label">Görünürlük</label>
+                            <select class="form-select" name="visibility">
+                                <option value="Public" selected>Herkese Açık</option>
+                                <option value="Hidden">Gizli</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- end card body -->
+                </div>
+                <!-- end card -->
+                <div class="card">
+                    <div class="card-header">
                         <h5 class="card-title mb-0">Yayınlama</h5>
                     </div>
                     <div class="card-body">
