@@ -83,7 +83,26 @@
                     <div class="collapse menu-dropdown" id="sidebarWarehouseProduct">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{ route('admin.product.index') }}" class="nav-link"> Ürünler</a>
+                                <a href="{{ route('admin.product.index') }}" class="nav-link" data-key="t-level-1.1"> Ürünler</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#sidebarAccount" class="nav-link" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarAccount" data-key="t-level-1.2">
+                                    Varyant Yönetimi
+                                </a>
+                                <div class="collapse menu-dropdown" id="sidebarAccount">
+                                    <ul class="nav nav-sm flex-column">
+                                        <li class="nav-item">
+                                            <a href="{{ route('admin.product.variant.group.index') }}" class="nav-link" data-key="t-level-2.1">
+                                                Varyant Grupları
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{ route('admin.product.variant.index') }}" class="nav-link" data-key="t-level-2.1">
+                                                Varyant Seçenekleri
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('admin.warehouseShelf.index') }}" class="nav-link"> Stoklar</a>
