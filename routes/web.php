@@ -78,6 +78,8 @@ Route::prefix('admin')->as('admin.')->middleware('auth')->group(function (){
                 Route::get('/duzenle/{variant}', [VariantController::class, 'edit'])->name('edit');
                 Route::post('/update/{variant}', [VariantController::class, 'update'])->name('update');
                 Route::post('/destroy/{variant}', [VariantController::class, 'destroy'])->name('destroy');
+
+                Route::get('/get-variants/{variantGroup}', [VariantController::class, 'getVariants'])->name('getVariants');
             });
         });
 

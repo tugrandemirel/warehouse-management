@@ -102,4 +102,10 @@ class VariantController extends Controller
         else
             return response()->json(['status' => false, 'message' => 'Varyant Grup silinirken bir hata oluştu.']);
     }
+
+    public function getVariants(VariantGroup $variantGroup)
+    {
+        $variants = Variant::where('variant_group_id', $variantGroup->id)->get();
+        return response()->json(['status' => true, 'variants' => $variants]);
+    }
 }

@@ -163,7 +163,8 @@
                         <div class="mb-3">
                             <label for="choices-publish-status-input" class="form-label">Grup Seçimi</label>
 
-                            <select class="form-select" name="publish">
+                            <select class="form-select" name="variant_group_id">
+                                <option value="">SEÇİNİZ</option>
                                 @if(\Illuminate\Support\Facades\Cache::has('variantGroups'))
                                     @foreach($variantGroups as $variantGroup)
                                         <option value="{{ $variantGroup->id }}">{{ $variantGroup->name }}</option>
@@ -172,11 +173,12 @@
                             </select>
                         </div>
 
-                        <div>
-                            <label for="choices-publish-visibility-input" class="form-label">Görünürlük</label>
-                            <select class="form-select" name="visibility">
-                                <option value="Public" selected>Herkese Açık</option>
-                                <option value="Hidden">Gizli</option>
+                        <div style="visibility: hidden;" id="displayVariant">
+                            <label for="choices-publish-visibility-input" class="form-label">
+                                Varyant Seçimi
+                            </label>
+                            <select class="form-select" id="variant" name="variant_id" multiple>
+
                             </select>
                         </div>
                     </div>
@@ -235,4 +237,46 @@
     <!-- dropzone js -->
     <script src="{{ asset('assets/admin/libs/dropzone/dropzone-min.js') }}"></script>
     <script src="{{ asset('assets/admin/js/pages/ecommerce-product-create.init.js') }}"></script>
+
+    <script !src="">
+        let variant_group_id = document.querySelector('select[name="variant_group_id"]');
+        variant_group_id.addEventListener('change', function () {
+            let id = this.value;
+            let url = '{{ route('admin.product.variant.getVariants', ['variantGroup' => ':id']) }}';
+            url = url.replace(':id', id);
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function (data) {
+                    let variant = document.querySelector('#variant');
+                    variant.innerHTML = '';
+                    let option = document.createElement('option');
+                    variant.appendChild(option);
+                    if (data.variants.length > 0)
+                    {
+                        document.querySelector('#displayVariant').style.visibility = 'visible';
+                        data.variants.forEach(function (item) {
+                            let option = document.createElement('option');
+                            option.value = item.id;
+                            option.text = item.name;
+                            variant.appendChild(option);
+                        });
+                    }
+                    else
+                        document.querySelector('#displayVariant').style.visibility = 'hidden';
+                }
+            });
+        });
+
+        let variant = document.querySelector('#variant');
+        variant.addEventListener('change', function () {
+            var secilenOptionlar = Array.from(variant.selectedOptions);
+            for (let i = 0; i < secilenOptionlar.length; i++)
+            {
+                console.log(secilenOptionlar[i].value, secilenOptionlar[i].text)
+            }
+        });
+
+
+    </script>
 @endsection
