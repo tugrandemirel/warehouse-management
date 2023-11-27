@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Product;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\SkuValue;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -15,7 +16,15 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::where('user_id', auth()->user()->id)->get();
+        $products = SkuValue::where('user_id', auth()->user()->id)
+                    ->with([
+                        'product',
+                        'variant',
+                        'warehouse',
+                        'warehouseShelf',
+                        'warehouseShelfGroup'
+                    ])
+                    ->get();
         return view('admin.product.index', compact('products'));
     }
 
