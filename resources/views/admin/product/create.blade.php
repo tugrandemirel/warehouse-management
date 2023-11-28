@@ -3,21 +3,8 @@
 
 @endsection
 @section('content')
-    <!-- start page title -->
-    <div class="row">
-        <div class="col-12">
-            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Ürün Ekle</h4>
-                <div class="page-title-right">
-                    <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">ADMİN</a></li>
-                        <li class="breadcrumb-item active">ÜRÜN EKLE</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- end page title -->
+
+    <x-admin.page-title :title="'Ürün Ekle'"></x-admin.page-title>
 
     <form action="{{ route('admin.product.store') }}" method="POST">
         @csrf
@@ -207,45 +194,4 @@
     <script src="{{ asset('assets/admin/libs/dropzone/dropzone-min.js') }}"></script>
     <script src="{{ asset('assets/admin/js/pages/ecommerce-product-create.init.js') }}"></script>
 
-    <script !src="">
-        let variant_group_id = document.querySelector('select[name="variant_group_id"]');
-        variant_group_id.addEventListener('change', function () {
-            let id = this.value;
-            let url = '{{ route('admin.product.variant.getVariants', ['variantGroup' => ':id']) }}';
-            url = url.replace(':id', id);
-            $.ajax({
-                url: url,
-                type: 'GET',
-                success: function (data) {
-                    let variant = document.querySelector('#variant');
-                    variant.innerHTML = '';
-                    let option = document.createElement('option');
-                    variant.appendChild(option);
-                    if (data.variants.length > 0)
-                    {
-                        document.querySelector('#displayVariant').style.visibility = 'visible';
-                        data.variants.forEach(function (item) {
-                            let option = document.createElement('option');
-                            option.value = item.id;
-                            option.text = item.name;
-                            variant.appendChild(option);
-                        });
-                    }
-                    else
-                        document.querySelector('#displayVariant').style.visibility = 'hidden';
-                }
-            });
-        });
-
-        let variant = document.querySelector('#variant');
-        variant.addEventListener('change', function () {
-            var secilenOptionlar = Array.from(variant.selectedOptions);
-            for (let i = 0; i < secilenOptionlar.length; i++)
-            {
-                console.log(secilenOptionlar[i].value, secilenOptionlar[i].text)
-            }
-        });
-
-
-    </script>
 @endsection

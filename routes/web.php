@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\Admin\Warehouse\WarehouseController;
 use App\Http\Controllers\Admin\Warehouse\WarehouseShelfController;
 use App\Http\Controllers\Admin\Warehouse\WarehouseShelfGroupController;
+use App\Http\Controllers\Admin\Settings\Product\CurrenyController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -84,6 +85,18 @@ Route::prefix('admin')->as('admin.')->middleware('auth')->group(function (){
             Route::post('/update/{api}', [ApiController::class, 'update'])->name('update');
             Route::post('/destroy/{api}', [ApiController::class, 'destroy'])->name('destroy');
         });
+    });
 
+    Route::prefix('ayarlar')->as('settings.')->group(function (){
+        Route::prefix('urun')->as('product.')->group(function (){
+            Route::resourceVerbs([
+                'create' => 'olustur',
+                'edit' => 'duzenle',
+            ]);
+            Route::resource('para-birimi', CurrenyController::class)
+                ->parameter('para-birimi', 'currency')
+                ->except(['show'])
+                ->names('currency');
+        });
     });
 });

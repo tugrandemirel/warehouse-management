@@ -94,11 +94,6 @@
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="{{ route('admin.product.variant.index') }}" class="nav-link" data-key="t-level-2.1">
-                                                Varyant Seçenekleri
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
                                             <a href="{{ route('admin.warehouseShelf.index') }}" class="nav-link"> Stoklar</a>
                                         </li>
                                         <li class="nav-item">
@@ -116,7 +111,6 @@
                 </li>
 
                 <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-pages">Entegrasyon İşlemleri</span></li>
-
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="{{ route('admin.api.index') }}">
                         <i class="ri-account-circle-line"></i> <span data-key="t-authentication">Kargo Entegrasyonu</span>
@@ -126,6 +120,41 @@
                     <a class="nav-link menu-link" href="{{ route('admin.store.index') }}">
                         <i class="ri-account-circle-line"></i> <span data-key="t-authentication">Mağaza Entegrasyonu</span>
                     </a>
+                </li>
+
+
+
+                <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-pages">Ayarlar</span></li>
+
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarProductSetting" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarAuth">
+                        <i class="ri-account-circle-line"></i> <span data-key="t-authentication">Ayarlar</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarProductSetting">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="#sidebarAccount" class="nav-link" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarAccount" data-key="t-level-1.2">
+                                    Ürünler Ayarları
+                                </a>
+                                <div class="collapse menu-dropdown" id="sidebarAccount">
+                                    <ul class="nav nav-sm flex-column">
+                                        <li class="nav-item">
+                                            <a href="{{ route('admin.product.index') }}" class="nav-link" data-key="t-level-2.1">
+                                                Numara Tanımları
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{ route('admin.warehouseShelf.index') }}" class="nav-link"> Para Birimi Tanımları</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{ route('admin.warehouseShelf.index') }}" class="nav-link">Ürün Boyutu Tanımları</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
                 </li>
             </ul>
         </div>
