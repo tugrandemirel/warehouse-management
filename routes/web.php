@@ -8,7 +8,9 @@ use App\Http\Controllers\Admin\Warehouse\WarehouseController;
 use App\Http\Controllers\Admin\Warehouse\WarehouseShelfController;
 use App\Http\Controllers\Admin\Warehouse\WarehouseShelfGroupController;
 use App\Http\Controllers\Admin\Settings\Product\CurrenyController;
+use App\Http\Controllers\Admin\Settings\Product\NumberController;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -93,10 +95,17 @@ Route::prefix('admin')->as('admin.')->middleware('auth')->group(function (){
                 'create' => 'olustur',
                 'edit' => 'duzenle',
             ]);
+            Route::delete('currency/deleteMultiple', [CurrenyController::class, 'deleteMultiple'])->name('currency.deleteMultiple');
             Route::resource('para-birimi', CurrenyController::class)
                 ->parameter('para-birimi', 'currency')
                 ->except(['show'])
                 ->names('currency');
+
+            Route::delete('number/deleteMultiple', [NumberController::class, 'deleteMultiple'])->name('number.deleteMultiple');
+            Route::resource('numara', NumberController::class)
+                ->parameter('numara', 'number')
+                ->except(['show'])
+                ->names('number');
         });
     });
 });

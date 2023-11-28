@@ -114,4 +114,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Currency::class);
     }
+
+    public function numbers(): HasMany
+    {
+        return $this->hasMany(Number::class);
+    }
 }

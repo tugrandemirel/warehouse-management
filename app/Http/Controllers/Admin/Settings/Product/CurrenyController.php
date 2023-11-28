@@ -93,4 +93,13 @@ class CurrenyController extends Controller
         else
             return response()->json(['status' => false, 'message' => 'Para Birimi silinirken bir hata oluştu.']);
     }
+
+    public function deleteMultiple(Request $request)
+    {
+        $ids = $request->ids;
+        Currency::where('user_id', auth()->user()->id)
+            ->whereIn('id', explode(",", $ids))
+            ->delete();
+        return response()->json(['status' => true, 'message' => 'Para Birimi başarıyla silindi.']);
+    }
 }

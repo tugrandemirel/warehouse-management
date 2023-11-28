@@ -24,7 +24,7 @@
                             <div class="hstack gap-2">
                                 <button class="btn btn-soft-danger" id="remove-actions" onClick="deleteMultiples()"><i class="ri-delete-bin-2-line"></i></button>
 {{--                                <button type="button" class="btn btn-info" data-bs-toggle="offcanvas" href="#offcanvasExample"><i class="ri-filter-3-line align-bottom me-1"></i> Fliters</button>--}}
-                                <a href="{{ route('admin.settings.product.currency.create') }}" class="btn btn-success add-btn" ><i class="ri-add-line align-bottom me-1"></i> Para Birimi Ekle</a>
+                                <a href="{{ route('admin.settings.product.number.create') }}" class="btn btn-success add-btn" ><i class="ri-add-line align-bottom me-1"></i> Numara Ekle</a>
 
                             </div>
                         </div>
@@ -33,7 +33,7 @@
                 <div class="card-body">
                     <div>
                         <div class="table-responsive table-card">
-                            @if($currencies->count() > 0)
+                            @if($numbers->count() > 0)
                             <table class="table align-middle" id="customerTable">
                                 <thead class="table-light">
                                 <tr>
@@ -42,52 +42,36 @@
                                             <input class="form-check-input" type="checkbox" id="checkAll">
                                         </div>
                                     </th>
-                                    <th class="sort" data-sort="name">Para Birimi Adı</th>
-                                    <th class="sort" data-sort="symbol">Para Birimi Sembolü</th>
-                                    <th class="sort" data-sort="default">Varsayılan Para Birimi</th>
+                                    <th class="sort" data-sort="name">Numara</th>
                                     <th class="sort" data-sort="date">Oluşturulma Tarihi</th>
                                     <th class="sort" data-sort="action">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody class="list form-check-all">
-                                @foreach($currencies as $currency)
+                                @foreach($numbers as $number)
                                     <tr>
                                         <th scope="row" >
                                             <div class="form-check">
-                                                <input class="form-check-input remove-action" type="checkbox" name="chk_child" value="{{ $currency->id }}">
+                                                <input class="form-check-input remove-action" type="checkbox" name="chk_child" value="{{ $number->id }}">
                                             </div>
                                         </th>
                                         <td class="name">
                                             <div class="d-flex align-items-center">
-                                                <div class="flex-grow-1 ms-2 name">{{ $currency->name }}</div>
-                                            </div>
-                                        </td>
-                                        <td class="symbol">
-                                            <div class="d-flex align-items-center">
-                                                <div class="flex-grow-1 ms-2 name">{{ $currency->symbol }}</div>
-                                            </div>
-                                        </td>
-                                        <td class="default">
-                                            <div class="d-flex align-items-center">
-                                                @if($currency->is_default === \App\Enum\Settings\Product\Currency\CurrencyIsDefaultEnum::FALSE)
-                                                <span class="badge bg-danger-subtle text-danger text-uppercase">Hayır</span>
-                                                @else
-                                                <span class="badge bg-success-subtle text-success text-uppercase">Evet</span>
-                                                @endif
+                                                <div class="flex-grow-1 ms-2 name">{{ $number->number }}</div>
                                             </div>
                                         </td>
                                         <td class="date">
-                                            {{ $currency->created_at->format('d M, Y') }}
+                                            {{ $number->created_at->format('d M, Y') }}
                                         </td>
                                         <td>
                                             <ul class="list-inline hstack gap-2 mb-0">
                                                 <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
-                                                    <a class="edit-item-btn" href="{{ route('admin.settings.product.currency.edit', ['currency' => $currency]) }}">
+                                                    <a class="edit-item-btn" href="{{ route('admin.settings.product.number.edit', ['number' => $number]) }}">
                                                         <i  class="ri-pencil-fill align-bottom text-muted"></i>
                                                     </a>
                                                 </li>
                                                 <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Delete">
-                                                    <a class="remove-item-btn" data-id="{{ $currency->id }}">
+                                                    <a class="remove-item-btn" data-id="{{ $number->id }}">
                                                         <i class="ri-delete-bin-fill align-bottom text-muted"></i>
                                                     </a>
                                                 </li>
@@ -165,7 +149,7 @@
                 let id = $(this).data('id');
                 $('#deleteRecordModal').modal('show');
                 $('#delete-record').click(function () {
-                    let url = "{{ route('admin.settings.product.currency.destroy', ['currency' => 'id']) }}";
+                    let url = "{{ route('admin.settings.product.number.destroy', ['number' => 'id']) }}";
                     url  = url.replace('id', id);
                     $.ajax({
                         url: url,
@@ -230,9 +214,8 @@
                 $('#deleteRecordModal').modal('show');
                 $('#delete-record').click(function () {
                     let join_selected_values = allVals.join(",");
-                    console.log(join_selected_values)
                     $.ajax({
-                        url: "{{ route('admin.settings.product.currency.deleteMultiple') }}",
+                        url: "{{ route('admin.settings.product.number.deleteMultiple') }}",
                         type: 'DELETE',
                         cache: false,
                         data: {
