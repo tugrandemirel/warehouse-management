@@ -3,8 +3,6 @@
 use App\Http\Controllers\Admin\Entegration\Api\ApiController;
 use App\Http\Controllers\Admin\Entegration\Store\StoreController;
 use App\Http\Controllers\Admin\Product\ProductController;
-use App\Http\Controllers\Admin\Product\Variant\VariantGroupController;
-use App\Http\Controllers\Product\Variant\VariantController;
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\Admin\Warehouse\WarehouseController;
 use App\Http\Controllers\Admin\Warehouse\WarehouseShelfController;
@@ -62,30 +60,6 @@ Route::prefix('admin')->as('admin.')->middleware('auth')->group(function (){
         Route::post('/destroy/{warehouseShelf}', [WarehouseShelfController::class, 'destroy'])->name('destroy');
     });
     Route::prefix('ürün')->as('product.')->group(function (){
-        Route::prefix('varyant')->as('variant.')->group(function (){
-            Route::prefix('grup')->as('group.')->group(function (){
-                Route::get('/', [VariantGroupController::class, 'index'])->name('index');
-                Route::get('/ekle', [VariantGroupController::class, 'create'])->name('create');
-                Route::post('/store', [VariantGroupController::class, 'store'])->name('store');
-                Route::get('/duzenle/{variantGroup}', [VariantGroupController::class, 'edit'])->name('edit');
-                Route::post('/update/{variantGroup}', [VariantGroupController::class, 'update'])->name('update');
-                Route::post('/destroy/{variantGroup}', [VariantGroupController::class, 'destroy'])->name('destroy');
-            });
-            Route::prefix('deger')->group(function (){
-                Route::get('/', [VariantController::class, 'index'])->name('index');
-                Route::get('/ekle', [VariantController::class, 'create'])->name('create');
-                Route::post('/store', [VariantController::class, 'store'])->name('store');
-                Route::get('/duzenle/{variant}', [VariantController::class, 'edit'])->name('edit');
-                Route::post('/update/{variant}', [VariantController::class, 'update'])->name('update');
-                Route::post('/destroy/{variant}', [VariantController::class, 'destroy'])->name('destroy');
-
-                Route::get('/get-variants/{variantGroup}', [VariantController::class, 'getVariants'])->name('getVariants');
-            });
-        });
-
-
-
-
         Route::get('/', [ProductController::class, 'index'])->name('index');
         Route::get('/ekle', [ProductController::class, 'create'])->name('create');
         Route::post('/store', [ProductController::class, 'store'])->name('store');

@@ -41,33 +41,4 @@ class Warehouse extends Model
         return $this->hasMany(UserWarehouse::class);
     }
 
-    public function skuValues()
-    {
-        return $this->hasMany(SkuValue::class);
-    }
-
-    public function products()
-    {
-        return $this->belongsToMany(Product::class, 'sku_values');
-    }
-
-    public function skus()
-    {
-        return $this->belongsToMany(Sku::class, 'sku_values');
-    }
-
-    public function variantGroups()
-    {
-        return $this->belongsToMany(VariantGroup::class, 'sku_values');
-    }
-
-    public function variantOptions()
-    {
-        return $this->belongsToMany(VariantOption::class, 'sku_values');
-    }
-
-    public function getVariantGroupsAttribute()
-    {
-        return $this->variantGroups()->get();
-    }
 }

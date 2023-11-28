@@ -83,17 +83,14 @@
                     <div class="collapse menu-dropdown" id="sidebarWarehouseProduct">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{ route('admin.product.index') }}" class="nav-link" data-key="t-level-1.1"> Ürünler</a>
-                            </li>
-                            <li class="nav-item">
                                 <a href="#sidebarAccount" class="nav-link" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarAccount" data-key="t-level-1.2">
-                                    Varyant Yönetimi
+                                    Ürünler
                                 </a>
                                 <div class="collapse menu-dropdown" id="sidebarAccount">
                                     <ul class="nav nav-sm flex-column">
                                         <li class="nav-item">
-                                            <a href="{{ route('admin.product.variant.group.index') }}" class="nav-link" data-key="t-level-2.1">
-                                                Varyant Grupları
+                                            <a href="{{ route('admin.product.index') }}" class="nav-link" data-key="t-level-2.1">
+                                                Ürünler
                                             </a>
                                         </li>
                                         <li class="nav-item">
@@ -101,18 +98,19 @@
                                                 Varyant Seçenekleri
                                             </a>
                                         </li>
+                                        <li class="nav-item">
+                                            <a href="{{ route('admin.warehouseShelf.index') }}" class="nav-link"> Stoklar</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{ route('admin.warehouseShelf.index') }}" class="nav-link">Mal Kabul</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{ route('admin.warehouseShelf.index') }}" class="nav-link">Depo Sayım</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </li>
-                            <li class="nav-item">
-                                <a href="{{ route('admin.warehouseShelf.index') }}" class="nav-link"> Stoklar</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('admin.warehouseShelf.index') }}" class="nav-link">Mal Kabul</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('admin.warehouseShelf.index') }}" class="nav-link">Depo Sayım</a>
-                            </li>
+
                         </ul>
                     </div>
                 </li>

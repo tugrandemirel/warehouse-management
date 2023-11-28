@@ -8,14 +8,12 @@
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                 <h4 class="mb-sm-0">Ürün Ekle</h4>
-
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="javascript: void(0);">ADMİN</a></li>
                         <li class="breadcrumb-item active">ÜRÜN EKLE</li>
                     </ol>
                 </div>
-
             </div>
         </div>
     </div>
@@ -155,35 +153,6 @@
             </div>
             <!-- end col -->
             <div class="col-lg-4">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="card-title mb-0">Variant Grubu</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <label for="choices-publish-status-input" class="form-label">Grup Seçimi</label>
-
-                            <select class="form-select" name="variant_group_id">
-                                <option value="">SEÇİNİZ</option>
-                                @if(\Illuminate\Support\Facades\Cache::has('variantGroups'))
-                                    @foreach($variantGroups as $variantGroup)
-                                        <option value="{{ $variantGroup->id }}">{{ $variantGroup->name }}</option>
-                                    @endforeach
-                                @endif
-                            </select>
-                        </div>
-
-                        <div style="visibility: hidden;" id="displayVariant">
-                            <label for="choices-publish-visibility-input" class="form-label">
-                                Varyant Seçimi
-                            </label>
-                            <select class="form-select" id="variant" name="variant_id" multiple>
-
-                            </select>
-                        </div>
-                    </div>
-                    <!-- end card body -->
-                </div>
                 <!-- end card -->
                 <div class="card">
                     <div class="card-header">

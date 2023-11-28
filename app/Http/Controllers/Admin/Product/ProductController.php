@@ -18,14 +18,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = SkuValue::where('user_id', auth()->user()->id)
-                    ->with([
-                        'product',
-                        'variant',
-                        'warehouse',
-                        'warehouseShelf',
-                        'warehouseShelfGroup'
-                    ])
+        $products = Product::where('user_id', auth()->user()->id)
                     ->get();
         return view('admin.product.index', compact('products'));
     }
@@ -37,12 +30,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $variantGroups = Cache::remember('variantGroups', now()->addHours(1) ,function () {
-            return VariantGroup::where('user_id', auth()->user()->id)
-                ->select('id', 'name')
-                ->get();
-        });
-        return view('admin.product.create', compact('variantGroups'));
+        return view('admin.product.create');
     }
 
     /**
