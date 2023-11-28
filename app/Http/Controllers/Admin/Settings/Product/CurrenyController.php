@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin\Settings\Product;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Settings\Currency\CurrencyStoreRequest;
+use App\Http\Requests\Admin\Settings\Currency\CurrencyUpdateRequest;
+use App\Models\Currency;
 use Illuminate\Http\Request;
 
 class CurrenyController extends Controller
@@ -14,7 +17,8 @@ class CurrenyController extends Controller
      */
     public function index()
     {
-        //
+        $currencies = auth()->user()->currencies()->get();
+        return view('admin.settings.product.currency.index', compact('currencies'));
     }
 
     /**
@@ -24,7 +28,7 @@ class CurrenyController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.settings.product.currency.create-edit');
     }
 
     /**
@@ -33,21 +37,20 @@ class CurrenyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CurrencyStoreRequest $request)
     {
-        //
+        $data = $request->except('_token');
+        $control = auth()->user()->currencies()->where('name', strtoupper($data['name']))->first();
+        if ($control) {
+            return redirect()->route('admin.settings.product.currency.index')->with('error', 'Para birimi zaten mevcut.');
+        }
+        $currency = auth()->user()->currencies()->create($data);
+        if ($currency) {
+            return redirect()->route('admin.settings.product.currency.index')->with('success', 'Para birimi başarıyla eklendi.');
+        }
+        return redirect()->route('admin.settings.product.currency.index')->with('error', 'Para birimi eklenirken bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -55,9 +58,9 @@ class CurrenyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Currency $currency)
     {
-        //
+        return view('admin.settings.product.currency.create-edit', compact('currency'));
     }
 
     /**
@@ -67,9 +70,14 @@ class CurrenyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CurrencyUpdateRequest $request, Currency $currency)
     {
-        //
+        $data = $request->except(['_token', '_method']);
+
+        if ($currency->update($data)) {
+            return redirect()->route('admin.settings.product.currency.index')->with('success', 'Para birimi başarıyla güncellendi.');
+        }
+        return redirect()->route('admin.settings.product.currency.index')->with('error', 'Para birimi güncellenirken bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.');
     }
 
     /**
@@ -78,8 +86,11 @@ class CurrenyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Currency $currency)
     {
-        //
+        if ($currency->delete())
+            return response()->json(['status' => true, 'message' => 'Para Birimi başarıyla silindi.']);
+        else
+            return response()->json(['status' => false, 'message' => 'Para Birimi silinirken bir hata oluştu.']);
     }
 }

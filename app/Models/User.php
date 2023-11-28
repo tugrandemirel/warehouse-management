@@ -109,4 +109,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Store::class);
     }
+
+    public function currencies(): HasMany
+    {
+        return $this->hasMany(Currency::class);
+    }
 }

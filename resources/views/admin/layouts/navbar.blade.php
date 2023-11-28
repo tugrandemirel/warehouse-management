@@ -144,7 +144,7 @@
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="{{ route('admin.warehouseShelf.index') }}" class="nav-link"> Para Birimi Tanımları</a>
+                                            <a href="{{ route('admin.settings.product.currency.index') }}" class="nav-link"> Para Birimi Tanımları</a>
                                         </li>
                                         <li class="nav-item">
                                             <a href="{{ route('admin.warehouseShelf.index') }}" class="nav-link">Ürün Boyutu Tanımları</a>
