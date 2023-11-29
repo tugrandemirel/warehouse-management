@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Enum\Settings\Product\Currency\CurrencyIsDefaultEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Currency extends Model
@@ -22,8 +24,15 @@ class Currency extends Model
         'is_default' => CurrencyIsDefaultEnum::class
     ];
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
+
+    public function productOption(): HasOne
+    {
+        return $this->hasOne(ProductOption::class);
+    }
+
+
 }

@@ -2,15 +2,41 @@
 
 namespace App\Http\Controllers\Admin\Product;
 
+use App\Enum\Settings\Product\Currency\CurrencyIsDefaultEnum;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Product\ProductStoreRequest;
+use App\Models\Currency;
+use App\Models\MarketPlace;
+use App\Models\Number;
 use App\Models\Product;
-use App\Models\SkuValue;
-use App\Models\VariantGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
+    protected object $currency;
+    protected object $numbers;
+    protected object $marketPlaces;
+    public function __construct()
+    {
+
+        $this->middleware(function ($request, $next) {
+            $this->currency = auth()->user()->getDefaultCurrency();
+
+            $this->numbers = Cache::remember('numbers_'.auth()->user()->id, 60*60*24, function () {
+                return Number::where('user_id', auth()->user()->id)
+                    ->select('number', 'id')
+                    ->get();
+            });
+            $this->marketPlaces = Cache::remember('marketPlaces_'.auth()->user()->id, 60*60*24, function () {
+                return MarketPlace::all();
+            });
+
+            return $next($request);
+        });
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -18,8 +44,17 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::where('user_id', auth()->user()->id)
-                    ->get();
+        $products = Product::with('user:id,name', 'productOptions:id,product_id,price,stock,sku,barcode,market_place_id')
+            ->where('user_id', auth()->user()->id)
+            ->select('id', 'user_id', 'name', 'slug')
+            ->paginate(10)
+            ->withQueryString()
+            ->onEachSide(2)
+            ->through(function ($product) {
+                $product->setAppends(['product_options_count']);
+                return $product;
+            });
+
         return view('admin.product.index', compact('products'));
     }
 
@@ -30,7 +65,11 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('admin.product.create');
+        return view('admin.product.create', [
+            'numbers' => $this->numbers,
+            'currency' => $this->currency,
+            'marketPlaces' => $this->marketPlaces,
+        ]);
     }
 
     /**
@@ -39,20 +78,11 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductStoreRequest $request)
     {
+        $data = $request->except('_token');
+        $data['image'] = $this->storeImage($request->file('image'));
 
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**
@@ -88,4 +118,5 @@ class ProductController extends Controller
     {
         //
     }
+
 }

@@ -3,175 +3,214 @@
 
 @endsection
 @section('content')
-    <div class="row">
-        <div class="col-12">
-            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Raflar</h4>
 
-                <div class="page-title-right">
-                    <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">ADMİN</a></li>
-                        <li class="breadcrumb-item active">RAFLAR</li>
-                    </ol>
+    <x-admin.page-title :title="'Ürün Ekle'"></x-admin.page-title>
+
+    <form action="{{ route('admin.product.store') }}" method="POST">
+        @csrf
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label" for="product-title-input">Ürün Başlığı</label>
+                            <input type="text" class="form-control" name="name" value="{{old('name') }}" placeholder="Ürün Başlığı Giriniz" required>
+                            @error('name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div>
+                            <label>Ürün Açıklaması</label>
+                            <textarea name="option[description]" class="form-control" id="ckeditor-classic">{!! old('description') !!}</textarea>
+                            @error('option.description')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
                 </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs-custom card-header-tabs border-bottom-0" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-bs-toggle="tab" href="#addproduct-general-info" role="tab">
+                                    Genel Bilgiler
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- end card header -->
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="addproduct-general-info" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Üretici Adı</label>
+                                            <input type="text" class="form-control" name="option[manufacturer_name]" value="{{ old('manufacturer_name') }}" placeholder="Lütfen üretici adı giriniz">
+                                            @error('option[manufacturer_name]')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Üretici Marka</label>
+                                            <input type="text" class="form-control" name="option[manufacturer_brand]" value="{{ old('option[manufacturer_brand]') }}" placeholder="Lütfen üretici marka giriniz">
+                                            @error('option.manufacturer_brand')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end row -->
+
+                                <div class="row">
+                                    <div class="col-lg-4 col-sm-12">
+                                        <div class="mb-3">
+                                            <label class="form-label" >Fiyat</label>
+                                            <div class="input-group has-validation mb-3">
+                                                <span class="input-group-text">{{ $currency->symbol }}</span>
+                                                <input type="text" class="form-control" name="option[price]" value="{{ old('option[price]') }}" placeholder="Fiyat Giriniz" aria-label="Price" aria-describedby="product-price-addon" required>
+                                                @error('option.price')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-sm-12">
+                                        <div class="mb-3">
+                                            <label class="form-label">Ürün Rengi</label>
+                                            <input type="color" class="form-control" name="option[color]" placeholder="Ürün Kodu" value="{{ old('option[color]') }}" required>
+                                            @error('option.color')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-sm-12">
+                                        <div class="mb-3">
+                                            <label class="form-label">Ürün Kodu</label>
+                                            <input type="text" class="form-control" name="option[code]" placeholder="Ürün Kodu" value="{{ old('option[code]') }}" required>
+                                            @error('option.code')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label">Ürün Ağırlığı</label>
+                                            <input type="text" class="form-control" name="option[weight]" placeholder="Ürün Ağırlığı" value="{{ old('option[weight]') }}" required>
+                                            @error('option.weight')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label">Ürün Genişliği</label>
+                                            <input type="text" class="form-control" name="option[width]" placeholder="Ürün Genişliği" value="{{ old('option[width]') }}" required>
+                                            @error('option.width')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label">Ürün Yüksekliği</label>
+                                            <input type="text" class="form-control" name="option[height]" placeholder="Ürün Yüksekliği" value="{{ old('option[height]') }}" required>
+                                            @error('option.height')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label">Ürün Uzunluğu</label>
+                                            <input type="text" class="form-control" name="option[length]" placeholder="Ürün Uzunluğu" value="{{ old('option[length]') }}" required>
+                                            @error('option.length')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <!-- end col -->
+                                </div>
+                                <!-- end row -->
+                            </div>
+                            <!-- end tab-pane -->
+                            <!-- end tab pane -->
+                        </div>
+                        <!-- end tab content -->
+                    </div>
+                    <!-- end card body -->
+                </div>
+                <!-- end card -->
+                <div class="text-end mb-3">
+                    <button type="submit" class="btn btn-success w-sm">Kaydet</button>
+                </div>
+            </div>
+            <!-- end col -->
+            <div class="col-lg-4">
+                <!-- end card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Yayınlama</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="choices-publish-status-input" class="form-label">Durum</label>
+
+                            <select class="form-select" name="option[is_active]">
+                                <option value="{{ \App\Enum\Product\ProductOption\ProductOptionIsActiveEnum::ACTIVE }}" selected>Aktif</option>
+                                <option value="{{ \App\Enum\Product\ProductOption\ProductOptionIsActiveEnum::PASSIVE }}">Pasif</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- end card body -->
+
+                </div>
+                <!-- end card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Ürün Kısa Açıklaması</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted mb-2">Ürün Kısa açıklaması giriniz</p>
+                        <textarea class="form-control" name="short_description" placeholder="Minimum 50 karakter giriniz." rows="3">{{ old('short_description') }}</textarea>
+                    </div>
+                    <!-- end card body -->
+                </div>
+                <!-- end card -->
+                <!-- end card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Ürün Resmi</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <p class="text-muted">Ana Resim Ekleyiniz</p>
+                            <div class="text-center">
+                                <input class="form-control" name="image" value=""  type="file">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end card -->
+
 
             </div>
+            <!-- end col -->
         </div>
-    </div>
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="card">
-                <div class="card-header">
-                    RAF DÜZENLE
-                </div>
-                <div class="card-body">
-                    <form action="{{ route('admin.warehouseShelf.update', ['warehouseShelf' => $warehouseShelf]) }}" method="POST">
-                        @csrf
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="mb-3">
-                                    <label for="firstNameinput" class="form-label">Raf Adı</label>
-                                    <input type="text" class="form-control  @error('name') is-invalid @enderror" value="{{ $warehouseShelf->name }}" name="name" id="name" placeholder="Raf Adı">
-                                    @error('name')
-                                    <div class="text-danger">
-                                        <strong>{{ $message }}</strong>
-                                    </div>
-                                    @enderror
-                                </div>
+        <!-- end row -->
 
-                            </div><!--end col-->
-                            <div class="col-6">
-                                <div class="mb-3">
-                                    <label for="firstNameinput" class="form-label">Depo</label>
-                                    <select name="warehouse_id" id="" class="form-select  @error('warehouse_id') is-invalid @enderror">
-                                        @foreach($warehouses as $warehouse)
-                                            <option value="{{ $warehouse->id }}" @if($warehouse->id === $warehouseShelf->warehouse_id) selected @endif>{{ $warehouse->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('warehouse_id')
-                                    <div class="text-danger">
-                                        <strong>{{ $message }}</strong>
-                                    </div>
-                                    @enderror
-                                </div>
-                            </div><!--end col-->
-                            <div class="col-6">
-                                <div class="mb-3">
-                                    <label for="code" class="form-label">Raf Kodu</label>
-                                    <input type="text" class="form-control  @error('code') is-invalid @enderror" value="{{ $warehouseShelf->code }}"  name="code" id="code" placeholder="Raf Kodu" >
-                                    @error('code')
-                                    <div class="text-danger">
-                                        <strong>{{ $message }}</strong>
-                                    </div>
-                                    @enderror
-                                </div>
-                            </div><!--end col-->
-                            <div class="col-6">
-                                <div class="mb-3">
-                                    <label for="is_active" class="form-label">Depo Aktifliği</label>
-                                    <select name="is_active" id="is_active" class="form-select  @error('is_active') is-invalid @enderror">
-                                        <option value="">SEÇİNİZ</option>
-                                        <option value="1" @if( \App\Enum\Warehouse\Shelf\WarehouseShelfIsActiveEnum::ACTIVE== $warehouseShelf->is_active) selected @endif>AKTİF</option>
-                                        <option value="0" @if( \App\Enum\Warehouse\Shelf\WarehouseShelfIsActiveEnum::PASSIVE== $warehouseShelf->is_active) selected @endif>PASİF</option>
-                                    </select>
-                                    @error('is_active')
-                                    <div class="text-danger">
-                                        <strong>{{ $message }}</strong>
-                                    </div>
-                                    @enderror
-                                </div>
-                            </div><!--end col-->
-
-                            <div class="col-12">
-                                <div class="mb-3">
-                                    <label for="compnayNameinput" class="form-label">Raf Açıklaması</label>
-                                    <textarea name="description" id="description" cols="30" rows="10" class="form-control @error('description') is-invalid @enderror">{{ $warehouseShelf->description }}</textarea>
-                                    @error('description')
-                                    <div class="text-danger">
-                                        <strong>{{ $message }}</strong>
-                                    </div>
-                                    @enderror
-                                </div>
-
-                            </div><!--end col-->
-                            <div class="col-lg-12">
-                                <div class="text-end">
-                                    <button type="submit" class="btn btn-primary">Kaydet</button>
-                                </div>
-                            </div><!--end col-->
-                        </div><!--end row-->
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+    </form>
 @endsection
 @section('js')
-    <script>
-        let warehouseStoreForm = document.getElementById('warehouseStoreForm');
-        let name = document.getElementById('name');
-        let description = document.getElementById('description');
-        let is_active = document.getElementById('is_active');
-        let code = document.getElementById('code');
-        let nameControl = false;
-        let descControl = false;
-        let is_activeControl = false;
-        name.addEventListener('keyup', function(){
-            const length = name.value.length;
-            if(length < 5){
-                name.classList.add('is-invalid');
-                name.classList.remove('is-valid');
-            }
-            else{
-                name.classList.add('is-valid');
-                name.classList.remove('is-invalid');
-                nameControl = true
-            }
-        });
-        description.addEventListener('keyup', function(){
-            const length = description.value.length;
-            if(length < 5){
-                description.classList.add('is-invalid');
-                description.classList.remove('is-valid');
-            }
-            else{
-                description.classList.add('is-valid');
-                description.classList.remove('is-invalid');
-                descControl = true
-            }
-        });
-        is_active.addEventListener('change', function(){
-            if(is_active.value === ''){
-                is_active.classList.add('is-invalid');
-                is_active.classList.remove('is-valid');
-            }
-            else{
-                is_active.classList.add('is-valid');
-                is_active.classList.remove('is-invalid');
-                is_activeControl = true
-            }
-        });
-        code.addEventListener('keyup', function(){
-            const length = code.value.length;
-            if(length < 5){
-                code.classList.add('is-invalid');
-                code.classList.remove('is-valid');
-            }
-            else{
-                code.classList.add('is-valid');
-                code.classList.remove('is-invalid');
-                codeControl = true
-            }
-        });
-        warehouseStoreForm.addEventListener('submit', function(e){
-            if(nameControl === false || descControl === false || is_activeControl === false || codeControl === false){
-                e.preventDefault();
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Lütfen gerekli alanları doldurunuz!',
-                })
-            }
-        });
-    </script>
+    <!-- ckeditor -->
+    <script src="{{ asset('assets/admin/libs/%40ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
+
+    <!-- dropzone js -->
+    <script src="{{ asset('assets/admin/libs/dropzone/dropzone-min.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/pages/ecommerce-product-create.init.js') }}"></script>
+
 @endsection

@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Enum\Settings\Product\Currency\CurrencyIsDefaultEnum;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Cache;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -118,5 +120,15 @@ class User extends Authenticatable
     public function numbers(): HasMany
     {
         return $this->hasMany(Number::class);
+    }
+
+    public function getDefaultCurrency()
+    {
+        return Cache::remember('currency_' . $this->id, 60 * 60 * 24, function () {
+            return Currency::where('user_id', $this->id)
+                ->where('is_default', CurrencyIsDefaultEnum::TRUE)
+                ->select('symbol')
+                ->first();
+        });
     }
 }
