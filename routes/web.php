@@ -3,12 +3,13 @@
 use App\Http\Controllers\Admin\Entegration\Api\ApiController;
 use App\Http\Controllers\Admin\Entegration\Store\StoreController;
 use App\Http\Controllers\Admin\Product\ProductController;
+use App\Http\Controllers\Admin\Settings\Product\CurrenyController;
+use App\Http\Controllers\Admin\Settings\Product\MainConfigController;
+use App\Http\Controllers\Admin\Settings\Product\NumberController;
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\Admin\Warehouse\WarehouseController;
 use App\Http\Controllers\Admin\Warehouse\WarehouseShelfController;
 use App\Http\Controllers\Admin\Warehouse\WarehouseShelfGroupController;
-use App\Http\Controllers\Admin\Settings\Product\CurrenyController;
-use App\Http\Controllers\Admin\Settings\Product\NumberController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -106,6 +107,11 @@ Route::prefix('admin')->as('admin.')->middleware('auth')->group(function (){
                 ->parameter('numara', 'number')
                 ->except(['show'])
                 ->names('number');
+
+            Route::resource('stok-kodu', MainConfigController::class)
+                ->parameter('stok-kodu', 'mainConfig')
+                ->except(['show', 'destroy'])
+                ->names('mainConfig');
         });
     });
 });

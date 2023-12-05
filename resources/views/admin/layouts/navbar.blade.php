@@ -147,7 +147,10 @@
                                             <a href="{{ route('admin.settings.product.currency.index') }}" class="nav-link"> Para Birimi Tanımları</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="{{ route('admin.warehouseShelf.index') }}" class="nav-link">Ürün Boyutu Tanımları</a>
+                                            <a href="{{ route('admin.warehouseShelf.index') }}" class="nav-link">Ürün Ölçü Birimi Tanımları</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{ route('admin.settings.product.mainConfig.index') }}" class="nav-link">Ürün Stok Tanımı</a>
                                         </li>
                                     </ul>
                                 </div>

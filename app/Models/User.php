@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Cache;
@@ -120,6 +121,11 @@ class User extends Authenticatable
     public function numbers(): HasMany
     {
         return $this->hasMany(Number::class);
+    }
+
+    public function mainConfig(): HasOne
+    {
+        return $this->HasOne(MainConfig::class);
     }
 
     public function getDefaultCurrency()
