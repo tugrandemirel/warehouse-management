@@ -18,6 +18,7 @@ class ProductController extends Controller
     protected object $currency;
     protected object $numbers;
     protected object $marketPlaces;
+    protected object $mainConfig;
     public function __construct()
     {
 
@@ -32,7 +33,7 @@ class ProductController extends Controller
             $this->marketPlaces = Cache::remember('marketPlaces_'.auth()->user()->id, 60*60*24, function () {
                 return MarketPlace::all();
             });
-
+            $this->mainConfig = auth()->user()->getMainConfig();
             return $next($request);
         });
     }
@@ -69,6 +70,7 @@ class ProductController extends Controller
             'numbers' => $this->numbers,
             'currency' => $this->currency,
             'marketPlaces' => $this->marketPlaces,
+            'mainConfig' => $this->mainConfig,
         ]);
     }
 
@@ -81,7 +83,6 @@ class ProductController extends Controller
     public function store(ProductStoreRequest $request)
     {
         $data = $request->except('_token');
-        $data['image'] = $this->storeImage($request->file('image'));
 
     }
 

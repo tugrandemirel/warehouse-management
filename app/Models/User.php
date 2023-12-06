@@ -137,4 +137,13 @@ class User extends Authenticatable
                 ->first();
         });
     }
+
+    public function getMainConfig()
+    {
+        return Cache::remember('stock_code_' . $this->id, 60 * 60 * 24, function () {
+            return MainConfig::where('user_id', $this->id)
+                ->select('stock_prefix')
+                ->first();
+        });
+    }
 }

@@ -92,7 +92,7 @@
                                     <div class="col-lg-3 col-sm-12">
                                         <div class="mb-3">
                                             <label class="form-label">Ürün Rengi</label>
-                                            <input type="color" class="form-control" name="option[color]" placeholder="Ürün Kodu" value="{{ old('option.color') }}" required>
+                                            <input type="color" class="form-control" name="option[color]" placeholder="Ürün Rengi" value="{{ old('option.color') }}" required>
                                             @error('option.color')
                                             <div class="text-danger">
                                             <strong>{{ $message }}</strong>
@@ -115,10 +115,11 @@
                                             @enderror
                                         </div>
                                     </div>
+
                                     <div class="col-lg-3 col-sm-12">
                                         <div class="mb-3">
                                             <label class="form-label">Ürün Kodu</label>
-                                            <input type="text" class="form-control" name="option[code]" placeholder="Ürün Kodu" value="{{ old('option.code') }}" required>
+                                            <input type="text" class="form-control" name="option[code]" placeholder="Ürün Kodu" value="{{ $mainConfig->stock_prefix ?? old('option.code') }}" required>
                                             @error('option.code')
                                             <div class="text-danger">
                                             <strong>{{ $message }}</strong>
