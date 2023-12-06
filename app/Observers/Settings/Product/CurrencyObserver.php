@@ -19,6 +19,8 @@ class CurrencyObserver
             $currency->is_default = CurrencyIsDefaultEnum::TRUE;
             Currency::where('user_id', $currency->user_id)->update(['is_default' => false]);
         }
+        else
+            $currency->is_default = CurrencyIsDefaultEnum::FALSE;
         $currency->user_id = auth()->user()->id;
         $currency->name = strtoupper($currency->name);
     }

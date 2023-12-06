@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin\Settings\Product;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Settings\Currency\CurrencyStoreRequest;
-use App\Http\Requests\Admin\Settings\Currency\CurrencyUpdateRequest;
+use App\Http\Requests\Admin\Settings\Product\Currency\CurrencyStoreRequest;
+use App\Http\Requests\Admin\Settings\Product\Currency\CurrencyUpdateRequest;
 use App\Models\Currency;
 use Illuminate\Http\Request;
 
