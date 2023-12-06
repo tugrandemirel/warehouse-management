@@ -4,8 +4,10 @@ namespace App\Providers;
 
 use App\Models\Currency;
 use App\Models\MainConfig;
+use App\Models\MeasurementUnit;
 use App\Observers\Settings\Product\CurrencyObserver;
 use App\Observers\Settings\Product\MainConfigObserver;
+use App\Observers\Settings\Product\MeasurementUnitObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -29,5 +31,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Currency::observe(CurrencyObserver::class);
         MainConfig::observe(MainConfigObserver::class);
+        MeasurementUnit::observe(MeasurementUnitObserver::class);
     }
 }

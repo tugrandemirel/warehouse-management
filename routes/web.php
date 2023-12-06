@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\Product\ProductController;
 use App\Http\Controllers\Admin\Settings\Product\CurrenyController;
 use App\Http\Controllers\Admin\Settings\Product\MainConfigController;
 use App\Http\Controllers\Admin\Settings\Product\NumberController;
+use App\Http\Controllers\Admin\Settings\Product\MeasurementUnitController;
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\Admin\Warehouse\WarehouseController;
 use App\Http\Controllers\Admin\Warehouse\WarehouseShelfController;
@@ -112,6 +113,12 @@ Route::prefix('admin')->as('admin.')->middleware('auth')->group(function (){
                 ->parameter('stok-kodu', 'mainConfig')
                 ->except(['show', 'destroy'])
                 ->names('mainConfig');
+
+            Route::delete('measurementUnit/deleteMultiple', [MeasurementUnitController::class, 'deleteMultiple'])->name('measurementUnit.deleteMultiple');
+            Route::resource('olcu-birimi', MeasurementUnitController::class)
+                ->parameter('olcu-birimi', 'measurementUnit')
+                ->except(['show'])
+                ->names('measurementUnit');
         });
     });
 });

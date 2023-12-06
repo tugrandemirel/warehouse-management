@@ -128,6 +128,11 @@ class User extends Authenticatable
         return $this->HasOne(MainConfig::class);
     }
 
+    public function measurementUnits(): HasMany
+    {
+        return $this->hasMany(MeasurementUnit::class);
+    }
+
     public function getDefaultCurrency()
     {
         return Cache::remember('currency_' . $this->id, 60 * 60 * 24, function () {
@@ -146,4 +151,5 @@ class User extends Authenticatable
                 ->first();
         });
     }
+
 }
