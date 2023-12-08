@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Str;
-
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\JsonResponse;
 /**
  * Generate a URL friendly "slug" from a given string.
  *
@@ -34,6 +35,21 @@ if (!function_exists('turkishCharacterChanging'))
         );
 
         return $title;
+    }
+}
+
+if (!function_exists('deleteModel'))
+{
+    function deleteModel(Model $model, $title)
+    {
+        $delete = $model->delete();
+        $success = $title . ' başarıyla silindi.';
+        $error = $title . ' silinirken bir hata oluştu.';
+
+        return response()->json([
+            'status' => $delete,
+            'message' => $delete ? $success : $error
+        ]);
     }
 }
 
