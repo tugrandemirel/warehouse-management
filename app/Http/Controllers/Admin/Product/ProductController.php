@@ -9,9 +9,12 @@ use App\Models\Currency;
 use App\Models\MarketPlace;
 use App\Models\Number;
 use App\Models\Product;
+use App\Models\ProductMarketPlace;
+use App\Models\ProductOption;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -19,6 +22,7 @@ class ProductController extends Controller
     protected object $numbers;
     protected object $marketPlaces;
     protected object $mainConfig;
+    protected object $measurementUnits;
     public function __construct()
     {
 
@@ -34,6 +38,7 @@ class ProductController extends Controller
                 return MarketPlace::all();
             });
             $this->mainConfig = auth()->user()->getMainConfig();
+            $this->measurementUnits = auth()->user()->getMeasurementUnits();
             return $next($request);
         });
     }
@@ -45,9 +50,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with('user:id,name', 'productOptions:id,product_id,price,stock,sku,barcode,market_place_id')
+        $products = Product::with('user:id,name', 'productOptions')
             ->where('user_id', auth()->user()->id)
-            ->select('id', 'user_id', 'name', 'slug')
+            ->select('id', 'user_id', 'name', 'slug', 'created_at')
             ->paginate(10)
             ->withQueryString()
             ->onEachSide(2)
@@ -55,7 +60,6 @@ class ProductController extends Controller
                 $product->setAppends(['product_options_count']);
                 return $product;
             });
-
         return view('admin.product.index', compact('products'));
     }
 
@@ -71,6 +75,7 @@ class ProductController extends Controller
             'currency' => $this->currency,
             'marketPlaces' => $this->marketPlaces,
             'mainConfig' => $this->mainConfig,
+            'measurementUnits' => $this->measurementUnits,
         ]);
     }
 
@@ -83,7 +88,26 @@ class ProductController extends Controller
     public function store(ProductStoreRequest $request)
     {
         $data = $request->except('_token');
-
+        $option = $data['option'];
+        unset($data['option']);
+        $pCreate = $product = Product::create($data);
+        if($option['image']) {
+            $product->addMediaFromRequest('option.image')
+                ->toMediaCollection('product');
+        }
+        unset($option['image']);
+        $productMarketPlace = $option['market_place'];
+        unset($option['market_place']);
+        $option['product_id'] = $pCreate->id;
+        $pOcreate = ProductOption::create($option);
+        foreach ($productMarketPlace as $key => $value) {
+            ProductMarketPlace::create([
+                'product_option_id' => $pOcreate->id,
+                'market_place_id' => $key,
+                'stock_code' => $value['code'],
+            ]);
+        }
+        return redirect()->route('admin.product.index')->with('success', 'Ürün başarıyla kaydedildi.');
     }
 
     /**

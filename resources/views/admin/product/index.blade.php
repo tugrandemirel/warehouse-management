@@ -2,7 +2,15 @@
 @section('css')
 
     <link href="{{ asset('assets/admin/libs/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
-
+    <style>
+        .color-box {
+            border-radius: 50%;
+            border: 1px solid #ebeff2;
+            padding: 20px;
+            height: 19px;
+            width: 19px;
+        }
+    </style>
 @endsection
 @section('content')
 
@@ -58,12 +66,11 @@
                                             <input class="form-check-input" type="checkbox" id="checkAll" value="option">
                                         </div>
                                     </th>
-                                    <th class="sort" data-sort="name">Ürün Adı</th>
                                     <th class="sort" data-sort="code">Ürün Kodu</th>
+                                    <th class="sort" data-sort="name">Ürün Adı</th>
                                     <th class="sort" data-sort="price">Ürün Fiyatı</th>
                                     <th class="sort" data-sort="vat">Ürün KDV</th>
                                     <th class="sort" data-sort="color">Ürün Renk</th>
-                                    <th class="sort" data-sort="size">Ürün Beden</th>
 
                                     <th class="sort" data-sort="date">Oluşturulma Tarihi</th>
                                     <th class="sort" data-sort="action">Action</th>
@@ -71,41 +78,38 @@
                                 </thead>
                                 <tbody class="list form-check-all">
                                 @foreach($products as $product)
-                                    <tr>
+                                    @foreach($product->productOptions as $productOption)
+                                        <tr>
                                         <th scope="row" >
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" name="chk_child" value="option1">
                                             </div>
                                         </th>
+                                            <td class="code">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-grow-1 ms-2 name">{{ $productOption->product_code }}</div>
+                                                </div>
+                                            </td>
                                         <td class="name">
                                             <div class="d-flex align-items-center">
                                                 <div class="flex-grow-1 ms-2 name">{{ $product->name }}</div>
                                             </div>
                                         </td>
-
-                                        <td class="code">
-                                            <div class="d-flex align-items-center">
-                                                <div class="flex-grow-1 ms-2 name">{{ $product->code }}</div>
-                                            </div>
-                                        </td>
                                         <td class="price">
                                             <div class="d-flex align-items-center">
-                                                <div class="flex-grow-1 ms-2 name">{{ $product->price }}</div>
+                                                <div class="flex-grow-1 ms-2 name">{{ $productOption->price }}</div>
                                             </div>
                                         </td>
                                         <td class="vat">
                                             <div class="d-flex align-items-center">
-                                                <div class="flex-grow-1 ms-2 name">{{ $product->vat }}</div>
+                                                <div class="flex-grow-1 ms-2 name">%{{ $productOption->vat }}</div>
                                             </div>
                                         </td>
                                         <td class="color">
                                             <div class="d-flex align-items-center">
-                                                <div class="flex-grow-1 ms-2 name">{{ $product->color }}</div>
-                                            </div>
-                                        </td>
-                                        <td class="size">
-                                            <div class="d-flex align-items-center">
-                                                <div class="flex-grow-1 ms-2 name">{{ $product->size }}</div>
+                                                <div class="flex-grow-1 ms-2 name">
+                                                    <div class="color-box" style="background-color: {{ $productOption->color }}"></div>
+                                                </div>
                                             </div>
                                         </td>
                                         <td class="date">
@@ -126,6 +130,7 @@
                                             </ul>
                                         </td>
                                     </tr>
+                                    @endforeach
                                 @endforeach
                                 </tbody>
                             </table>

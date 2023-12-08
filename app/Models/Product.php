@@ -7,9 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Product extends Model
+class Product extends Model implements HasMedia
 {
     use HasFactory, SoftDeletes, InteractsWithMedia;
 
@@ -29,4 +30,14 @@ class Product extends Model
         return $this->hasMany(ProductOption::class);
     }
 
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('product')
+            ->singleFile();
+    }
+
+    public function getMainImageAttribute()
+    {
+        return $this->getFirstMediaUrl('product');
+    }
 }

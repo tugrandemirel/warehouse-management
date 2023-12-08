@@ -15,4 +15,9 @@ class MarketPlace extends Model
         'country_id',
         'description'
     ];
+
+    public function productMarketPlaces()
+    {
+        return $this->hasMany(ProductMarketPlace::class);
+    }
 }

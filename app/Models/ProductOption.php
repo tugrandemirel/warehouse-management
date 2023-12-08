@@ -17,7 +17,6 @@ class ProductOption extends Model
         'user_id',
         'number_id',
         'currency_id',
-        'image',
         'manufacturer_name',
         'manufacturer_brand',
         'description',
@@ -28,12 +27,14 @@ class ProductOption extends Model
         'width',
         'height',
         'length',
-        'code',
+        'product_code',
+        'vat',
         'is_active',
     ];
 
     protected $casts = [
-        'is_active' => ProductOptionIsActiveEnum::class
+        'is_active' => ProductOptionIsActiveEnum::class,
+        'vat' => 'decimal:2'
     ];
 
     public function product(): BelongsTo
@@ -55,5 +56,11 @@ class ProductOption extends Model
     {
         return $this->belongsTo(Currency::class);
     }
+
+    public function productMarketPlaces()
+    {
+        return $this->hasMany(ProductMarketPlace::class);
+    }
+
 
 }

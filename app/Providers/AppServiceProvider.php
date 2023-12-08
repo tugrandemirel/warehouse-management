@@ -5,6 +5,10 @@ namespace App\Providers;
 use App\Models\Currency;
 use App\Models\MainConfig;
 use App\Models\MeasurementUnit;
+use App\Models\Product;
+use App\Models\ProductOption;
+use App\Observers\Product\ProductObserver;
+use App\Observers\Product\ProductOptionObserver;
 use App\Observers\Settings\Product\CurrencyObserver;
 use App\Observers\Settings\Product\MainConfigObserver;
 use App\Observers\Settings\Product\MeasurementUnitObserver;
@@ -32,5 +36,7 @@ class AppServiceProvider extends ServiceProvider
         Currency::observe(CurrencyObserver::class);
         MainConfig::observe(MainConfigObserver::class);
         MeasurementUnit::observe(MeasurementUnitObserver::class);
+        Product::observe(ProductObserver::class);
+        ProductOption::observe(ProductOptionObserver::class);
     }
 }

@@ -4,14 +4,31 @@
 @endsection
 @section('content')
 
-    <x-admin.page-title :title="'Ürün Ekle'"></x-admin.page-title>
-
+    <x-admin.page-title :title="'Ürün Tanımlama'"></x-admin.page-title>
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <form action="{{ route('admin.product.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="row">
             <div class="col-lg-8">
                 <div class="card">
                     <div class="card-body">
+                            <div class="mb-3">
+                                <label class="form-label">Ürün Kodu</label>
+                                <input type="text" class="form-control" name="option[product_code]" placeholder="Ürün Kodu" value="{{ $mainConfig->stock_prefix ?? old('option.product_code') }}" required>
+                                @error('option.product_code')
+                                <div class="text-danger">
+                                    <strong>{{ $message }}</strong>
+                                </div>
+                                @enderror
+                            </div>
                         <div class="mb-3">
                             <label class="form-label" for="product-title-input">Ürün Başlığı</label>
                             <input type="text" class="form-control" name="name" value="{{old('name') }}" placeholder="Ürün Başlığı Giriniz" required>
@@ -39,6 +56,11 @@
                             <li class="nav-item">
                                 <a class="nav-link active" data-bs-toggle="tab" href="#addproduct-general-info" role="tab">
                                     Genel Bilgiler
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#product-general-info" role="tab">
+                                    Ürün Ölçü Bilgiler
                                 </a>
                             </li>
                         </ul>
@@ -77,22 +99,29 @@
                                     <div class="col-lg-3 col-sm-12">
                                         <div class="mb-3">
                                             <label class="form-label" >Fiyat</label>
-                                            <div class="input-group has-validation mb-3">
+                                            <div class="input-group  mb-3">
+                                                <input type="hidden" class="form-control" name="option[currency_id]" value="{{ $currency->id }}" required>
+                                                <input type="text" class="form-control is-numeric" name="option[price]" value="{{ old('option.price') }}" placeholder="Fiyat" aria-label="Price" aria-describedby="product-price-addon" required>
                                                 <span class="input-group-text">{{ $currency->symbol }}</span>
-                                                <input type="text" class="form-control" name="option[price]" value="{{ old('option.price') }}" placeholder="Fiyat Giriniz" aria-label="Price" aria-describedby="product-price-addon" required>
+                                                <input type="number" class="form-control is-numeric" name="option[vat]" value="{{ old('option.vat') }}" placeholder="KDV Oranı" aria-label="vat" aria-describedby="product-price-addon" required>
+                                                <span class="input-group-text ml-3">%</span>
+                                                @error('option.vat')
+                                                    <div class="text-danger">
+                                                        <strong>{{ $message }}</strong>
+                                                    </div>
+                                                @enderror
                                                 @error('option.price')
                                                 <div class="text-danger">
-                                            <strong>{{ $message }}</strong>
-                                        </div>
+                                                    <strong>{{ $message }}</strong>
+                                                </div>
                                                 @enderror
                                             </div>
-
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-sm-12">
                                         <div class="mb-3">
                                             <label class="form-label">Ürün Rengi</label>
-                                            <input type="color" class="form-control" name="option[color]" placeholder="Ürün Rengi" value="{{ old('option.color') }}" required>
+                                            <input type="color" class="form-control form-control-color w-100" name="option[color]" placeholder="Ürün Rengi" value="{{ old('option.color') }}" required>
                                             @error('option.color')
                                             <div class="text-danger">
                                             <strong>{{ $message }}</strong>
@@ -115,67 +144,101 @@
                                             @enderror
                                         </div>
                                     </div>
+                                </div>
+                                <!-- end row -->
+                            </div>
+                            <!-- end tab-pane -->
+                            <div class="tab-pane" id="product-general-info" role="tabpanel">
+                                <div class="row">
 
-                                    <div class="col-lg-3 col-sm-12">
-                                        <div class="mb-3">
-                                            <label class="form-label">Ürün Kodu</label>
-                                            <input type="text" class="form-control" name="option[code]" placeholder="Ürün Kodu" value="{{ $mainConfig->stock_prefix ?? old('option.code') }}" required>
-                                            @error('option.code')
-                                            <div class="text-danger">
-                                            <strong>{{ $message }}</strong>
-                                        </div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-4">
+                                    <div class="col-lg-2 col-md-4">
                                         <div class="mb-3">
                                             <label class="form-label">Ürün Ağırlığı</label>
                                             <input type="text" class="form-control is-numeric" name="option[weight]" placeholder="Ürün Ağırlığı" value="{{ old('option.weight') }}" required>
                                             @error('option.weight')
                                             <div class="text-danger">
-                                            <strong>{{ $message }}</strong>
-                                        </div>
+                                                <strong>{{ $message }}</strong>
+                                            </div>
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="col-lg-3 col-md-4">
+                                    <div class="col-lg-2 col-md-4">
                                         <div class="mb-3">
-                                            <label class="form-label">Ürün Genişliği</label>
-                                            <input type="text" class="form-control is-numeric" name="option[width]" placeholder="Ürün Genişliği" value="{{ old('option.width') }}" required>
+                                            <label for="form-label">Ölçü Birimi Seçiniz</label>
+                                            <select name="option[measurement_unit_id]" id="" class="form-select">
+                                                @foreach($measurementUnits as $measurementUnit)
+                                                    <option value="{{ $measurementUnit->id }}"
+                                                            {{ $measurementUnit->is_default == \App\Enum\Settings\Product\MeasurementUnit\MeasurementUnitIsDefaultEnum::TRUE ? 'selected' : '' }}
+                                                            @if(old('option.measurement_unit_id') == $measurementUnit->id) selected @endif
+                                                    >{{ $measurementUnit->symbol }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-group  mb-3">
+                                            <input type="hidden" class="form-control" name="option[currency_id]" value="{{ $currency->id }}" required>
+                                            <input type="text" class="form-control is-numeric" name="option[width]" value="{{ old('option.width') }}" placeholder="Ürün Genişliği" aria-label="width" aria-describedby="product-width-addon" required>
+                                            <span class="input-group-text">x</span>
+                                            <input type="text" class="form-control is-numeric" name="option[height]" value="{{ old('option.height') }}" placeholder="Ürün Yüksekliği" aria-label="height" aria-describedby="product-height-addon" required>
+                                            <span class="input-group-text">x</span>
+                                            <input type="text" class="form-control is-numeric" name="option[length]" value="{{ old('option.length') }}" placeholder="Ürün Uzunluğu" aria-label="length" aria-describedby="product-height-addon" required>
+
                                             @error('option.width')
                                             <div class="text-danger">
-                                            <strong>{{ $message }}</strong>
-                                        </div>
+                                                <strong>{{ $message }}</strong>
+                                            </div>
                                             @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-4">
-                                        <div class="mb-3">
-                                            <label class="form-label">Ürün Yüksekliği</label>
-                                            <input type="text" class="form-control is-numeric" name="option[height]" placeholder="Ürün Yüksekliği" value="{{ old('option.height') }}" required>
                                             @error('option.height')
                                             <div class="text-danger">
-                                            <strong>{{ $message }}</strong>
-                                        </div>
+                                                <strong>{{ $message }}</strong>
+                                            </div>
                                             @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-4">
-                                        <div class="mb-3">
-                                            <label class="form-label">Ürün Uzunluğu</label>
-                                            <input type="text" class="form-control is-numeric" name="option[length]" placeholder="Ürün Uzunluğu" value="{{ old('option.length') }}" required>
                                             @error('option.length')
                                             <div class="text-danger">
-                                            <strong>{{ $message }}</strong>
-                                        </div>
+                                                <strong>{{ $message }}</strong>
+                                            </div>
                                             @enderror
                                         </div>
+                                     {{--   <div class="col-lg-2 col-md-4">
+                                            <div class="mb-3">
+                                                <label class="form-label">Ürün Genişliği</label>
+                                                <input type="text" class="form-control is-numeric" name="option[width]" placeholder="Ürün Genişliği" value="{{ old('option.width') }}" required>
+                                                @error('option.width')
+                                                <div class="text-danger">
+                                                    <strong>{{ $message }}</strong>
+                                                </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-4">
+                                            <div class="mb-3">
+                                                <label class="form-label">Ürün Yüksekliği</label>
+                                                <input type="text" class="form-control is-numeric" name="option[height]" placeholder="Ürün Yüksekliği" value="{{ old('option.height') }}" required>
+                                                @error('option.height')
+                                                <div class="text-danger">
+                                                    <strong>{{ $message }}</strong>
+                                                </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-4">
+                                            <div class="mb-3">
+                                                <label class="form-label">Ürün Uzunluğu</label>
+                                                <input type="text" class="form-control is-numeric" name="option[length]" placeholder="Ürün Uzunluğu" value="{{ old('option.length') }}" required>
+                                                @error('option.length')
+                                                <div class="text-danger">
+                                                    <strong>{{ $message }}</strong>
+                                                </div>
+                                                @enderror
+                                            </div>
+                                        </div>--}}
+
                                     </div>
                                     <!-- end col -->
                                 </div>
                                 <!-- end row -->
                             </div>
-                            <!-- end tab-pane -->
                             <!-- end tab pane -->
                         </div>
                         <!-- end tab content -->
@@ -218,7 +281,6 @@
                             <p class="text-muted">Ana Resim Ekleyiniz</p>
                             <div class="text-center">
                                 <input class="form-control" name="option[image]" value=""  type="file">
-
                             </div>
                             @error('option.image')
                             <div class="text-danger">
@@ -236,14 +298,16 @@
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
-                            <label for="choices-publish-status-input" class="form-label">Durum</label>
-                                <select class="form-select" name="option[is_active]">
-                                    @foreach($marketPlaces as $marketPlace)
+                            <label for="choices-publish-status-input" class="form-label">Pazar Yeri Seçiniz</label>
+                            <select class="form-select" id="marketPlace">
+                                <option value="0">Seçiniz</option>
+                                @foreach($marketPlaces as $marketPlace)
                                     <option value="{{ $marketPlace->id }}">
                                         {{ $marketPlace->name }}</option>
-                                    @endforeach
-                                </select>
+                                @endforeach
+                            </select>
                         </div>
+                        <div class="mb-3 marketPlaces"></div>
                     </div>
                     <!-- end card body -->
                 </div>
@@ -291,5 +355,27 @@
                 }
             });
         });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#marketPlace').on('change', function () {
+                var marketPlaceId = $(this).val();
+                var marketPlaceName = $(this).find('option:selected').text();
+                let newInput = '<div class="row">' +
+                    '<div class="col-lg-8">' +
+                        '<div class="mb-3">' +
+                            '<label class="form-label" for="product-title-input">'+marketPlaceName+' Kodu</label>' +
+                            '<input type="text" class="form-control" name="option[market_place]['+marketPlaceId+'][code]" value="" placeholder="'+marketPlaceName+' Kodu Giriniz" required>' +
+                        '</div>' +
+                    '</div>'+
+                    '<div class="col-lg-4">' +
+                        '<div class="mb-3">' +
+                            '<button type="button" class="btn btn-danger" style="margin-top: 27px" onclick="$(this).parent().parent().parent().remove()">Kaldır</button>'
+                        '</div>' +
+                    '</div>' +
+                    '</div>';
+                $('.marketPlaces').append(newInput)
+            });
+        })
     </script>
 @endsection

@@ -138,7 +138,7 @@ class User extends Authenticatable
         return Cache::remember('currency_' . $this->id, 60 * 60 * 24, function () {
             return Currency::where('user_id', $this->id)
                 ->where('is_default', CurrencyIsDefaultEnum::TRUE)
-                ->select('symbol')
+                ->select('symbol', 'id')
                 ->first();
         });
     }
@@ -149,6 +149,15 @@ class User extends Authenticatable
             return MainConfig::where('user_id', $this->id)
                 ->select('stock_prefix')
                 ->first();
+        });
+    }
+
+    public function getMeasurementUnits()
+    {
+        return Cache::remember('measurement_units_' . $this->id, 60 * 60 * 24, function () {
+            return MeasurementUnit::where('user_id', $this->id)
+                ->select('id','symbol', 'is_default')
+                ->get();
         });
     }
 

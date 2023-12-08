@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests\Admin\Product;
 
+use App\Enum\Product\ProductOption\ProductOptionIsActiveEnum;
+use App\Rules\TaxRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class ProductStoreRequest extends FormRequest
 {
@@ -36,8 +39,13 @@ class ProductStoreRequest extends FormRequest
             'option.width' => 'required|numeric',
             'option.height' => 'required|numeric',
             'option.length' => 'required|numeric',
-            'option.code' => 'required|string|max:255',
-            'option.is_active' => 'required',
+            'option.product_code' => 'required|string|max:255',
+            'option.is_active' => ['required', new Enum(ProductOptionIsActiveEnum::class)],
+            'option.market_place' => 'nullable|array',
+            'option.currency_id' => 'required|numeric',
+            'option.number_id' => 'required|numeric',
+            'option.measurement_unit_id' => 'required|numeric',
+            'option.tax' => ['nullable', new TaxRule()],
         ];
     }
 
@@ -80,11 +88,18 @@ class ProductStoreRequest extends FormRequest
             'option.height.numeric' => 'Ürün yüksekliği alanı sayı tipinde olmalıdır.',
             'option.length.required' => 'Ürün uzunluğu alanı zorunludur.',
             'option.length.numeric' => 'Ürün uzunluğu alanı sayı tipinde olmalıdır.',
-            'option.code.required' => 'Ürün kodu alanı zorunludur.',
-            'option.code.string' => 'Ürün kodu alanı metin tipinde olmalıdır.',
-            'option.code.max' => 'Ürün kodu alanı en fazla 255 karakter olmalıdır.',
+            'option.product_code.required' => 'Ürün kodu alanı zorunludur.',
+            'option.product_code.string' => 'Ürün kodu alanı metin tipinde olmalıdır.',
+            'option.product_code.max' => 'Ürün kodu alanı en fazla 255 karakter olmalıdır.',
             'option.is_active.required' => 'Ürün durumu alanı zorunludur.',
             'option.is_active.boolean' => 'Ürün durumu alanı boolean tipinde olmalıdır.',
+            'option.market_place.array' => 'Ürün market alanı dizi tipinde olmalıdır.',
+            'option.currency_id.required' => 'Ürün para birimi alanı zorunludur.',
+            'option.currency_id.numeric' => 'Ürün para birimi alanı sayı tipinde olmalıdır.',
+            'option.number_id.required' => 'Ürün numara alanı zorunludur.',
+            'option.number_id.numeric' => 'Ürün numara alanı sayı tipinde olmalıdır.',
+            'option.measurement_unit_id.required' => 'Ürün ölçü birimi alanı zorunludur.',
+            'option.measurement_unit_id.numeric' => 'Ürün ölçü birimi alanı sayı tipinde olmalıdır.',
         ];
     }
 }
