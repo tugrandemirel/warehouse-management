@@ -67,6 +67,7 @@
                                         </div>
                                     </th>
                                     <th class="sort" data-sort="code">Ürün Kodu</th>
+                                    <th class="sort" data-sort="image">Ürün Resmi</th>
                                     <th class="sort" data-sort="name">Ürün Adı</th>
                                     <th class="sort" data-sort="price">Ürün Fiyatı</th>
                                     <th class="sort" data-sort="vat">Ürün KDV</th>
@@ -88,6 +89,13 @@
                                             <td class="code">
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-grow-1 ms-2 name">{{ $productOption->product_code }}</div>
+                                                </div>
+                                            </td>
+                                            <td class="image">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-grow-1 ms-2 name">
+                                                        <img src="{{ asset($product->getFirstMediaUrl('product', 'thumb'))  }}" alt="" width="50px" height="50px">
+                                                    </div>
                                                 </div>
                                             </td>
                                         <td class="name">

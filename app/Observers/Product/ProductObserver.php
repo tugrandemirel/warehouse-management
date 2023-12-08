@@ -37,7 +37,8 @@ class ProductObserver
      */
     public function deleted(Product $product)
     {
-        //
+        $product->productOptions()->delete();
+        $product->clearMediaCollection('product');
     }
 
     /**
