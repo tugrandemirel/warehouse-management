@@ -19,6 +19,9 @@ class Product extends Model implements HasMedia
         'name',
         'slug'
     ];
+    protected $appends = [
+        'main_image'
+    ];
 
     public function user(): BelongsTo
     {
@@ -38,6 +41,6 @@ class Product extends Model implements HasMedia
 
     public function getMainImageAttribute()
     {
-        return $this->getFirstMediaUrl('product');
+        return !empty($this->getFirstMediaUrl('product')) ?  $this->getFirstMediaUrl('product') : asset('images/no-image.png');
     }
 }

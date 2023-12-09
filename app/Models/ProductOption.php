@@ -17,6 +17,7 @@ class ProductOption extends Model
         'user_id',
         'number_id',
         'currency_id',
+        'measurement_unit_id',
         'manufacturer_name',
         'manufacturer_brand',
         'description',
@@ -55,6 +56,11 @@ class ProductOption extends Model
     public function currency(): BelongsTo
     {
         return $this->belongsTo(Currency::class);
+    }
+
+    public function measurementUnit(): BelongsTo
+    {
+        return $this->belongsTo(MeasurementUnit::class);
     }
 
     public function productMarketPlaces()

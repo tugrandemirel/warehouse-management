@@ -94,7 +94,7 @@
                                             <td class="image">
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-grow-1 ms-2 name">
-                                                        <img src="{{ asset($product->getFirstMediaUrl('product', 'thumb'))  }}" alt="" width="50px" height="50px">
+                                                        <img src="{{ asset($product->main_image)  }}" alt="" width="50px" height="50px">
                                                     </div>
                                                 </div>
                                             </td>

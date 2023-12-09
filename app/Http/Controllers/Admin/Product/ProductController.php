@@ -50,9 +50,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with('user:id,name', 'productOptions')
+        $products = Product::with(['user:id,name', 'productOptions' => function($query){
+                $query->with(['productMarketPlaces', 'number', 'currency', 'measurementUnit']);
+            }])
             ->where('user_id', auth()->user()->id)
-            ->select('id', 'user_id', 'name', 'slug', 'created_at')
             ->paginate(10)
             ->withQueryString()
             ->onEachSide(2)
@@ -116,9 +117,22 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Product $product)
     {
-        //
+
+            $product->load(['productOptions', 'productOptions' => function($query){
+                $query->with(['productMarketPlaces' => function($query){
+                    $query->with('marketPlace');
+                }]);
+            }]);
+            return view('admin.product.edit', [
+                'product' => $product,
+                'numbers' => $this->numbers,
+                'currency' => $this->currency,
+                'marketPlaces' => $this->marketPlaces,
+                'mainConfig' => $this->mainConfig,
+                'measurementUnits' => $this->measurementUnits,
+            ]);
     }
 
     /**
@@ -141,10 +155,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        if ($product->delete())
-            return response()->json(['status' => true, 'message' => 'Ürün başarıyla silindi.']);
-        else
-            return response()->json(['status' => false, 'message' => 'Ürün silinirken bir hata oluştu.']);
+        return deleteModel($product, 'Ürün');
     }
 
 }
