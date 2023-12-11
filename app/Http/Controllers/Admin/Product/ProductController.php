@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Product;
 use App\Enum\Settings\Product\Currency\CurrencyIsDefaultEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Product\ProductStoreRequest;
+use App\Http\Requests\Admin\Product\ProductUpdateRequest;
 use App\Models\Currency;
 use App\Models\MarketPlace;
 use App\Models\Number;
@@ -91,7 +92,7 @@ class ProductController extends Controller
         $data = $request->except('_token');
         $option = $data['option'];
         unset($data['option']);
-        $pCreate = $product = Product::create($data);
+        $product = Product::create($data);
         if($option['image']) {
             $product->addMediaFromRequest('option.image')
                 ->toMediaCollection('product');
@@ -99,7 +100,7 @@ class ProductController extends Controller
         unset($option['image']);
         $productMarketPlace = $option['market_place'];
         unset($option['market_place']);
-        $option['product_id'] = $pCreate->id;
+        $option['product_id'] = $product->id;
         $pOcreate = ProductOption::create($option);
         foreach ($productMarketPlace as $key => $value) {
             ProductMarketPlace::create([
@@ -142,9 +143,35 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProductUpdateRequest $request, Product $product)
     {
-        //
+        $data = $request->except('_token');
+        $option = $data['option'];
+        unset($data['option']);
+        $pUpdate = $product->update($data);
+        if(isset($option['image'])) {
+            $product->addMediaFromRequest('option.image')
+                ->toMediaCollection('product');
+        }
+        unset($option['image']);
+        $productMarketPlace = $option['market_place'];
+        unset($option['market_place']);
+        $option['product_id'] = $product->id;
+        $cPOption = ProductOption::where('product_id', $product->id)->first();
+        $cPOption->update($option);
+        $cPMarketPlace = ProductMarketPlace::where('product_option_id', $cPOption->id)->get();
+        foreach ($cPMarketPlace as $key => $value) {
+            $value->delete();
+        }
+        foreach ($productMarketPlace as $key => $value) {
+            ProductMarketPlace::create([
+                'product_option_id' => $cPOption->id,
+                'market_place_id' => $key,
+                'stock_code' => $value['code'],
+            ]);
+        }
+        return redirect()->route('admin.product.index')->with('success', 'Ürün başarıyla güncellendi.');
+
     }
 
     /**

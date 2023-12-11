@@ -14,7 +14,7 @@
             </ul>
         </div>
     @endif
-    <form action="{{ route('admin.product.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('admin.product.update', ['product' => $product]) }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="row">
             <div class="col-lg-8">
@@ -311,7 +311,6 @@
                         </div>
                     </div>
                     <!-- end card body -->
-
                 </div>
             </div>
             <!-- end col -->
