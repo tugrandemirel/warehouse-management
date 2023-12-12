@@ -40,8 +40,12 @@ if (!function_exists('turkishCharacterChanging'))
 
 if (!function_exists('deleteModel'))
 {
-    function deleteModel(Model $model, $title)
+    function deleteModel(Model $model, $title, $media = null)
     {
+        if ($model->getMedia($media)->count() > 0)
+        {
+            $model->clearMediaCollection($media);
+        }
         $delete = $model->delete();
         $success = $title . ' başarıyla silindi.';
         $error = $title . ' silinirken bir hata oluştu.';
@@ -50,6 +54,18 @@ if (!function_exists('deleteModel'))
             'status' => $delete,
             'message' => $delete ? $success : $error
         ]);
+    }
+}
+
+if(!function_exists('responseJson'))
+{
+    function responseJson($status, $message, $data = null)
+    {
+        return response()->json([
+            'status' => $status,
+            'message' => $message,
+            'data' => $data
+        ], $status === true ? 200 : 400);
     }
 }
 

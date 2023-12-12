@@ -104,6 +104,10 @@
                                         </li>
                                     </ul>
                                 </div>
+
+                                <a href="{{ route('admin.company.create') }}" class="nav-link">
+                                    Firmalar
+                                </a>
                             </li>
 
                         </ul>

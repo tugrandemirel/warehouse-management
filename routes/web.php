@@ -11,6 +11,8 @@ use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\Admin\Warehouse\WarehouseController;
 use App\Http\Controllers\Admin\Warehouse\WarehouseShelfController;
 use App\Http\Controllers\Admin\Warehouse\WarehouseShelfGroupController;
+use App\Http\Controllers\Admin\Company\CompanyController;
+use App\Http\Controllers\Admin\Ajax\LocationController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -32,7 +34,10 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::prefix('admin')->as('admin.')->middleware('auth')->group(function (){
-
+    Route::resourceVerbs([
+        'create' => 'ekle',
+        'edit' => 'duzenle',
+    ]);
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::prefix('kullanici')->as('user.')->group(function (){
         Route::get('/', [UserController::class, 'index'])->name('index');
@@ -90,13 +95,13 @@ Route::prefix('admin')->as('admin.')->middleware('auth')->group(function (){
             Route::post('/destroy/{api}', [ApiController::class, 'destroy'])->name('destroy');
         });
     });
-
+    Route::delete('company/deleteMultiple', [CompanyController::class, 'deleteMultiple'])->name('company.deleteMultiple');
+    Route::resource('firma', CompanyController::class)
+        ->parameter('firma', 'company')
+        ->except(['show'])
+        ->names('company');
     Route::prefix('ayarlar')->as('settings.')->group(function (){
         Route::prefix('urun')->as('product.')->group(function (){
-            Route::resourceVerbs([
-                'create' => 'olustur',
-                'edit' => 'duzenle',
-            ]);
             Route::delete('currency/deleteMultiple', [CurrenyController::class, 'deleteMultiple'])->name('currency.deleteMultiple');
             Route::resource('para-birimi', CurrenyController::class)
                 ->parameter('para-birimi', 'currency')
@@ -120,5 +125,9 @@ Route::prefix('admin')->as('admin.')->middleware('auth')->group(function (){
                 ->except(['show'])
                 ->names('measurementUnit');
         });
+    });
+
+    Route::prefix('ajax')->as('ajax.')->group(function (){
+       Route::get('state/', [LocationController::class, 'getState'])->name('get.state');
     });
 });

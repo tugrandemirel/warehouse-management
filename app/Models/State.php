@@ -5,20 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MarketPlace extends Model
+class State extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'name',
-        'slug',
         'country_id',
-        'description'
     ];
 
-    public function productMarketPlaces()
+    public function country()
     {
-        return $this->hasMany(ProductMarketPlace::class);
+        return $this->belongsTo(Country::class);
     }
-
 }
