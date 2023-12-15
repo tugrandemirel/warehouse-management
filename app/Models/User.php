@@ -138,11 +138,26 @@ class User extends Authenticatable
         return $this->hasMany(Company::class);
     }
 
+    public function stocks(): HasMany
+    {
+        return $this->hasMany(Stock::class);
+    }
+
     public function getCompanies()
     {
         return Cache::remember('company_' . $this->id, 60 * 60 * 24, function () {
             return Company::where('user_id', $this->id)
                 ->select('id','name', 'degree', 'tax_administration', 'tax_number', 'phone', 'email', 'website', 'address', 'state_id', 'country_id', 'post_code', 'logo', 'created_at')
+                ->get();
+        });
+    }
+
+
+    public function getStoresWithCache()
+    {
+        return Cache::remember('store_' . $this->id, 60 * 60 * 24, function () {
+            return Store::where('user_id', $this->id)
+                ->select('id','user_id','name','sku')
                 ->get();
         });
     }

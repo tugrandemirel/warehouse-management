@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Enum\Company\CompanyIsActiveEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -52,6 +54,16 @@ class Company extends Model implements HasMedia
     public function state()
     {
         return $this->belongsTo(State::class);
+    }
+
+    public function stores()
+    {
+        return $this->hasMany(Store::class);
+    }
+
+    public function stocks(): HasMany
+    {
+        return $this->hasMany(Stock::class);
     }
 
     public function getLogoAttribute()

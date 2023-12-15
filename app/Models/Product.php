@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enum\Product\ProductOption\ProductOptionIsActiveEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -31,6 +32,15 @@ class Product extends Model implements HasMedia
     public function productOptions(): HasMany
     {
         return $this->hasMany(ProductOption::class);
+    }
+    public function productOptionsIsActive(): HasMany
+    {
+        return $this->hasMany(ProductOption::class)->where('is_active', ProductOptionIsActiveEnum::ACTIVE);
+    }
+
+    public function productStocks(): HasMany
+    {
+        return $this->hasMany(ProductStock::class);
     }
 
     public function registerMediaCollections(): void

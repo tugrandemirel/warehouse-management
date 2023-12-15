@@ -23,4 +23,14 @@ class Store extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(Country::class);
+    }
+
+    public function stocks()
+    {
+        return $this->hasMany(Stock::class);
+    }
 }

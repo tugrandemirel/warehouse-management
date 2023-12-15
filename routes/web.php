@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\Warehouse\WarehouseShelfController;
 use App\Http\Controllers\Admin\Warehouse\WarehouseShelfGroupController;
 use App\Http\Controllers\Admin\Company\CompanyController;
 use App\Http\Controllers\Admin\Ajax\LocationController;
+use App\Http\Controllers\Admin\Product\StockController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -76,6 +77,10 @@ Route::prefix('admin')->as('admin.')->middleware('auth')->group(function (){
         Route::get('/duzenle/{product}', [ProductController::class, 'edit'])->name('edit');
         Route::post('/update/{product}', [ProductController::class, 'update'])->name('update');
         Route::post('/destroy/{product}', [ProductController::class, 'destroy'])->name('destroy');
+        Route::resource('stok', StockController::class)
+            ->parameter('stok', 'stock')
+            ->except(['show'])
+            ->names('stock');
     });
     Route::prefix('entegrasyon')->group(function (){
         Route::prefix('magaza')->as('store.')->group(function (){

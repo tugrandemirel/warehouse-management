@@ -34,5 +34,8 @@ class Currency extends Model
         return $this->hasOne(ProductOption::class);
     }
 
-
+    public function stock(): HasOne
+    {
+        return $this->hasOne(Stock::class);
+    }
 }

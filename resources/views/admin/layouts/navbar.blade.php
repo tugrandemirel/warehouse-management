@@ -94,7 +94,7 @@
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="{{ route('admin.warehouseShelf.index') }}" class="nav-link"> Stoklar</a>
+                                            <a href="{{ route('admin.product.stock.index') }}" class="nav-link"> Stoklar</a>
                                         </li>
                                         <li class="nav-item">
                                             <a href="{{ route('admin.warehouseShelf.index') }}" class="nav-link">Mal Kabul</a>

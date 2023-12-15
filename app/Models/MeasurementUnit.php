@@ -6,6 +6,7 @@ use App\Enum\Settings\Product\MeasurementUnit\MeasurementUnitIsDefaultEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class MeasurementUnit extends Model
 {
@@ -26,4 +27,10 @@ class MeasurementUnit extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function productStocks(): HasMany
+    {
+        return $this->hasMany(ProductStock::class);
+    }
+
 }
