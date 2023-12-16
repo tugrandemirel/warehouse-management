@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Stock extends Model
 {
@@ -23,7 +24,6 @@ class Stock extends Model
 
     protected $casts = [
         'invoice_date' => 'date',
-        'invoice_number' => 'unique',
         'total' => 'decimal:2',
         'exchange_rate' => 'decimal:2',
     ];
@@ -48,6 +48,9 @@ class Stock extends Model
         return $this->belongsTo(Currency::class);
     }
 
-
+    public function productStocks(): HasMany
+    {
+        return $this->hasMany(ProductStock::class);
+    }
 
 }

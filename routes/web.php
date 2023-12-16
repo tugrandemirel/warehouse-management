@@ -16,7 +16,6 @@ use App\Http\Controllers\Admin\Ajax\LocationController;
 use App\Http\Controllers\Admin\Product\StockController;
 use Illuminate\Support\Facades\Route;
 
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -131,7 +130,6 @@ Route::prefix('admin')->as('admin.')->middleware('auth')->group(function (){
                 ->names('measurementUnit');
         });
     });
-
     Route::prefix('ajax')->as('ajax.')->group(function (){
        Route::get('state/', [LocationController::class, 'getState'])->name('get.state');
     });

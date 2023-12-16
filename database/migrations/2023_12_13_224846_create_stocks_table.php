@@ -21,8 +21,8 @@ return new class extends Migration
             $table->foreignId('currency_id')->constrained('currencies')->onDelete('cascade');
             $table->string('invoice_number')->unique();
             $table->date('invoice_date');
-            $table->decimal('total', 10, 2);
-            $table->decimal('exchange_rate', 10, 2);
+            $table->decimal('total', 10, 2)->nullable();
+            $table->decimal('exchange_rate', 10, 2)->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

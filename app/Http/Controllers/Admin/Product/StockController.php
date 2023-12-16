@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Product;
 
 use App\Enum\Product\ProductOption\ProductOptionIsActiveEnum;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Product\Store\StoreRequest;
 use App\Models\Stock;
 use Illuminate\Http\Request;
 
@@ -53,21 +54,14 @@ class StockController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        $data = $request->except('_token');
+        $stock = Stock::create($data['data']);
+        $stock->productStocks()->createMany($data['option']['productStock']);
+        return redirect()->route('admin.product.stock.index')->with('success', 'Stok başarıyla oluşturuldu.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -75,9 +69,14 @@ class StockController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Stock $stock)
     {
-        //
+        $companies          = auth()->user()->getCompanies();
+        $stores             = auth()->user()->getStoresWithCache();
+        $currencies         = auth()->user()->currencies;
+        $measurementUnits   = auth()->user()->measurementUnits;
+        $products           = auth()->user()->products()->with('productOptionsIsActive')->get();
+        return view('admin.product.stock.edit', compact('companies', 'stores', 'currencies', 'measurementUnits', 'products', 'stock'));
     }
 
     /**
@@ -87,9 +86,9 @@ class StockController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Stock $stock)
     {
-        //
+
     }
 
     /**
@@ -98,8 +97,8 @@ class StockController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Stock $stock)
     {
-        //
+
     }
 }

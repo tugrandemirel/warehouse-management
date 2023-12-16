@@ -14,7 +14,7 @@
             </ul>
         </div>
     @endif
-    <form action="{{ route('admin.product.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('admin.product.stock.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="row">
             <div class="col-lg-8">
@@ -35,7 +35,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label class="form-label">Fatura Tarihi</label>
-                                    <input type="date" class="form-control" name="data[invoice_number]" placeholder="Ürün Kodu" value="" required>
+                                    <input type="date" class="form-control" name="data[invoice_date]" placeholder="Ürün Kodu" value="" required>
                                     @error('option.product_code')
                                     <div class="text-danger">
                                         <strong>{{ $message }}</strong>
@@ -50,37 +50,47 @@
                                     <thead>
                                     <tr>
                                         <th>Ürün Kodu</th>
-                                        <th>Ürün Adı</th>
                                         <th>Ürün Adet</th>
                                         <th>Ürün Fiyat</th>
                                         <th>Ürün KDV</th>
                                         <th>Ürün Toplam</th>
+                                        <th>Ürün Açıklama</th>
                                     </tr>
                                     </thead>
                                     <tbody class="marketPlaces">
                                     <tr id="addProductTable">
                                         <td>
-                                            <select name="option[market_place][1][market_place_id]" id="marketPlace" class="form-select">
-                                                <option value="">Pazaryeri Seçiniz</option>
+                                            <select name="option[productStock][1][product_id]" id="marketPlace" class="form-select">
+                                                <option value="">Ürün Seçiniz</option>
                                                 @foreach($products as $product)
                                                     <option value="{{ $product->productOptionsIsActive[0]->id }}">{{ $product->productOptionsIsActive[0]->product_code }}</option>
                                                 @endforeach
                                             </select>
                                         </td>
-                                        <td>
-                                            <input type="text" class="form-control" name="option[market_place][1][product_name]" placeholder="Ürün Kodu" value="" required>
+                                        <td class="input-group">
+                                            <input type="number" class="form-control quantity" name="option[productStock][1][quantity]" value="0" min="0">
+                                            <div class="input-group-append">
+                                                <select name="option[productStock][1][measurement_unit_id]" id="" class="form-select">
+                                                    <option value="">Seçiniz</option>
+                                                    @foreach($measurementUnits as $measurementUnit)
+                                                        <option value="{{ $measurementUnit->id }}" @if($measurementUnit->is_default === \App\Enum\Settings\Product\MeasurementUnit\MeasurementUnitIsDefaultEnum::TRUE) selected @endif>{{ $measurementUnit->symbol }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control is-numeric" name="option[market_place][1][product_quantity]" placeholder="Ürün Kodu" value="" required>
+                                            <input type="number" class="form-control is-numeric price" name="option[productStock][1][price]" value="{{ old('option.product_price') }}"
+                                                   placeholder="Ürün Birim Fiyat">
+
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control is-numeric" name="option[market_place][1][product_price]" placeholder="Ürün Kodu" value="" required>
+                                            <input type="number" class="form-control is-numeric vat" name="option[productStock][1][vat]" placeholder="Ürün KDV" required>
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control is-numeric" name="option[market_place][1][product_kdv]" placeholder="Ürün Kodu" value="" required>
+                                            <input type="number" class="form-control is-numeric total" name="option[productStock][1][product_total]" placeholder="Ürün Toplam" required>
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control is-numeric" name="option[market_place][1][product_total]" placeholder="Ürün Kodu" value="" required>
+                                            <input type="text" class="form-control" name="option[productStock][1][description]" placeholder="Ürün Açıklama" required>
                                         </td>
                                         <td>
                                             <button type="button" class="btn btn-success addProductTable">Ekle</button>
@@ -88,6 +98,9 @@
                                     </tr>
                                     </tbody>
                                 </table>
+                            </div>
+                            <div class="mb-3">
+                                Toplam Fiyat: <span class="text-danger">0</span>
                             </div>
                         </div>
                     </div>
@@ -105,7 +118,8 @@
                     <div class="card-body">
                         <p class="text-muted mb-2">Mağaza Seçiniz</p>
                         @if($stores->count() > 0)
-                        <select name="company_id" class="form-select" id="">
+                        <select name="data[store_id]" class="form-select" id="">
+                            <option value="">Seçiniz</option>
                             @foreach($stores as $store)
                                 <option value="{{ $store->id }}">{{ $store->name }}</option>
                             @endforeach
@@ -129,7 +143,8 @@
                     <div class="card-body">
                         <p class="text-muted mb-2">Firma Seçiniz</p>
                         @if($companies->count() > 0)
-                        <select name="company_id" class="form-select" id="">
+                        <select name="data[company_id]" class="form-select" id="">
+                            <option value="">Seçiniz</option>
                             @foreach($companies as $company)
                                 <option value="{{ $company->id }}">{{ $company->name }}</option>
                             @endforeach
@@ -153,7 +168,8 @@
                     <div class="card-body">
                         <p class="text-muted mb-2">Para Birimi Seçiniz</p>
                         @if($currencies->count() > 0)
-                        <select name="currency_id" class="form-select" id="">
+                        <select name="data[currency_id]" class="form-select" id="">
+                            <option value="">Seçiniz</option>
                             @foreach($currencies as $currency)
                                 <option value="{{ $currency->id }}">{{ $currency->name }}</option>
                             @endforeach
@@ -182,7 +198,6 @@
 @section('js')
     <!-- ckeditor -->
     <script src="{{ asset('assets/admin/libs/%40ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
-
     <!-- dropzone js -->
     <script src="{{ asset('assets/admin/libs/dropzone/dropzone-min.js') }}"></script>
     <script src="{{ asset('assets/admin/js/pages/ecommerce-product-create.init.js') }}"></script>
@@ -204,12 +219,13 @@
             $('.addProductTable').click(function () {
                 i++;
                 var html = '<tr id="addProductTable'+i+'">';
-                html += '<td><select name="option[market_place]['+i+'][market_place_id]" id="marketPlace" class="form-select"><option value="">Pazaryeri Seçiniz</option>@foreach($products as $product)<option value="{{ $product->productOptionsIsActive[0]->id }}">{{ $product->productOptionsIsActive[0]->product_code }}</option>@endforeach</select></td>';
-                html += '<td><input type="text" class="form-control" name="option[market_place]['+i+'][product_name]" placeholder="Ürün Kodu" value="" required></td>';
-                html += '<td><input type="text" class="form-control is-numeric" name="option[market_place]['+i+'][product_quantity]" placeholder="Ürün Kodu" value="" required></td>';
-                html += '<td><input type="text" class="form-control is-numeric" name="option[market_place]['+i+'][product_price]" placeholder="Ürün Kodu" value="" required></td>';
-                html += '<td><input type="text" class="form-control is-numeric" name="option[market_place]['+i+'][product_kdv]" placeholder="Ürün Kodu" value="" required></td>';
-                html += '<td><input type="text" class="form-control is-numeric" name="option[market_place]['+i+'][product_total]" placeholder="Ürün Kodu" value="" required></td>';
+
+                html += '<td><select name="option[productStock]['+i+'][product_id]" id="marketPlace" class="form-select"><option value="">Ürün Seçiniz</option>@foreach($products as $product)<option value="{{ $product->productOptionsIsActive[0]->id }}">{{ $product->productOptionsIsActive[0]->product_code }}</option>@endforeach</select></td>';
+                html += '<td class="input-group"><input type="number" class="form-control quantity" name="option[productStock]['+i+'][quantity]" value="0" min="0"><div class="input-group-append"><select name="option[productStock]['+i+'][measurement_unit_id]" id="" class="form-select"><option value="">Seçiniz</option>@foreach($measurementUnits as $measurementUnit)<option value="{{ $measurementUnit->id }}" @if($measurementUnit->is_default === \App\Enum\Settings\Product\MeasurementUnit\MeasurementUnitIsDefaultEnum::TRUE) selected @endif>{{ $measurementUnit->symbol }}</option>@endforeach</select></div></td>';
+                html += '<td><input type="number" class="form-control is-numeric price" name="option[productStock]['+i+'][price]" placeholder="Ürün Birim Fiyat" required></td>';
+                html += '<td><input type="number" class="form-control is-numeric vat" name="option[productStock]['+i+'][vat]" placeholder="Ürün KDV" required></td>';
+                html += '<td><input type="number" class="form-control is-numeric total" name="option[productStock]['+i+'][product_total]" placeholder="Ürün Toplam" required></td>';
+                html += '<td><input type="text" class="form-control" name="option[productStock]['+i+'][description]" placeholder="Ürün Açıklama" required></td>';
                 html += '<td><button type="button" class="btn btn-danger removeProductTable" data-id="'+i+'" >Sil</button></td>';
                 html += '</tr>';
                 $('.marketPlaces').append(html);
@@ -219,5 +235,54 @@
                 $('#addProductTable'+id+'').remove();
             });
         })
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('.quantity').on('keyup', function () {
+                var quantity = $(this).val();
+                var price = $(this).closest('tr').find('.price').val();
+                if(quantity === ''){
+                    quantity = 0;
+                }
+                if (price === ''){
+                    price = 0;
+                }
+                var vat = $(this).closest('tr').find('.vat').val();
+                var total = quantity * price;
+                var totalVat = total * vat / 100;
+                var totalAmount = total + totalVat;
+                $(this).closest('tr').find('.total').val(totalAmount);
+            });
+            $('.price').on('keyup', function () {
+                var price = $(this).val();
+                var quantity = $(this).closest('tr').find('.quantity').val();
+                var vat = $(this).closest('tr').find('.vat').val();
+                if(quantity === ''){
+                    quantity = 0;
+                }
+                if (vat === ''){
+                    vat = 0;
+                }
+                var total = quantity * price;
+                var totalVat = total * vat / 100;
+                var totalAmount = total + totalVat;
+                $(this).closest('tr').find('.total').val(totalAmount);
+            });
+            $('.vat').on('keyup', function () {
+                var vat = $(this).val();
+                var price = $(this).closest('tr').find('.price').val();
+                var quantity = $(this).closest('tr').find('.quantity').val();
+                if(quantity === ''){
+                    quantity = 0;
+                }
+                if (price === ''){
+                    price = 0;
+                }
+                var total = quantity * price;
+                var totalVat = total * vat / 100;
+                var totalAmount = total + totalVat;
+                $(this).closest('tr').find('.total').val(totalAmount);
+            });
+        });
     </script>
 @endsection
