@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enum\Product\Stock\StockStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -20,12 +21,14 @@ class Stock extends Model
         'invoice_date',
         'total',
         'exchange_rate',
+        'status'
     ];
 
     protected $casts = [
         'invoice_date' => 'date',
         'total' => 'decimal:2',
         'exchange_rate' => 'decimal:2',
+        'status' => StockStatusEnum::class
     ];
 
     public function user(): BelongsTo

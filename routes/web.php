@@ -76,6 +76,8 @@ Route::prefix('admin')->as('admin.')->middleware('auth')->group(function (){
         Route::get('/duzenle/{product}', [ProductController::class, 'edit'])->name('edit');
         Route::post('/update/{product}', [ProductController::class, 'update'])->name('update');
         Route::post('/destroy/{product}', [ProductController::class, 'destroy'])->name('destroy');
+
+        Route::delete('stock/deleteMultiple', [StockController::class, 'deleteMultiple'])->name('stock.deleteMultiple');
         Route::resource('stok', StockController::class)
             ->parameter('stok', 'stock')
             ->except(['show'])

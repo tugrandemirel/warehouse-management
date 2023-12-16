@@ -2,6 +2,7 @@
 
 namespace App\Observers\Product\Stock;
 
+use App\Enum\Product\Stock\StockStatusEnum;
 use App\Models\Stock;
 
 class StockObserver
@@ -15,6 +16,7 @@ class StockObserver
     public function saving(Stock $stock)
     {
         $stock->user_id = auth()->user()->id;
+        $stock->status = StockStatusEnum::ADD;
     }
 
     /**

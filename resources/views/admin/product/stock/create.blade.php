@@ -4,7 +4,7 @@
 @endsection
 @section('content')
 
-    <x-admin.page-title :title="'Ürün Tanımlama'"></x-admin.page-title>
+    <x-admin.page-title :title="'Stok Giriş'"></x-admin.page-title>
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>

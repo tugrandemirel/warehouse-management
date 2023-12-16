@@ -6,6 +6,7 @@ use App\Enum\Product\ProductOption\ProductOptionIsActiveEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Product\Store\StoreRequest;
 use App\Http\Requests\Admin\Product\Store\UpdateRequest;
+use App\Models\Company;
 use App\Models\Stock;
 use Illuminate\Http\Request;
 
@@ -22,7 +23,15 @@ class StockController extends Controller
                     ->with([
                         'currency',
                         'store',
-                        'company'
+                        'company',
+                        'productStocks' => function ($query){
+                            $query->with([
+                                'product' => function ($query){
+                                    $query->with('productOptions');
+                                },
+                                'measurementUnit'
+                            ]);
+                        }
                     ])
                     ->orderByDesc('id')
                     ->get();
@@ -106,5 +115,18 @@ class StockController extends Controller
             return responseJson(true, 'Stok başarıyla silindi.');
         else
             return responseJson(false, 'Stok silinirken bir hata oluştu.');
+    }
+
+
+    public function deleteMultiple(Request $request)
+    {
+        $ids = $request->ids;
+        $delete = Stock::where('user_id', auth()->user()->id)
+            ->whereIn('id', explode(",", $ids))
+            ->delete();
+        if ($delete)
+            return responseJson(true, 'Stok Kaydı başarıyla silindi.');
+        else
+            return responseJson(false, 'Stok Kaydı silinirken bir hata oluştu.');
     }
 }
