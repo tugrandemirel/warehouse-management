@@ -113,7 +113,7 @@
                                         </td>
 
                                         <td class="invoice_date">
-                                            {{ $stok->invoice_date }}
+                                            {{ $stok->invoice_date->format('d-m-Y') }}
                                         </td>
                                         <td class="date">
                                             {{ $stok->created_at->format('d M, Y') }}
@@ -121,7 +121,7 @@
                                         <td>
                                             <ul class="list-inline hstack gap-2 mb-0">
                                                 <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
-                                                    <a class="edit-item-btn" href="{{ route('admin.product.edit', ['product' => $stok]) }}">
+                                                    <a class="edit-item-btn" href="{{ route('admin.product.stock.edit', ['stock' => $stok]) }}">
                                                         <i  class="ri-pencil-fill align-bottom text-muted"></i>
                                                     </a>
                                                 </li>
