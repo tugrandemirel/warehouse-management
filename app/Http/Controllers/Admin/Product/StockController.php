@@ -19,13 +19,18 @@ class StockController extends Controller
     {
         $stocks = Stock::where('user_id', auth()->user()->id)
                     ->with([
-                        'product.productOptions' => function($query) {
-                            $query->where('is_active', ProductOptionIsActiveEnum::ACTIVE);
-                        },
-                        'measurementUnit',
                         'currency',
                         'store',
-                        'company'
+                        'company',
+                        'productStocks' => function($query) {
+                            $query->with([
+                                'product' => function($query) {
+                                    $query->with([
+                                        'productOptionsIsActive'
+                                    ]);
+                                }
+                            ]);
+                        }
                     ])
                     ->orderByDesc('id')
                     ->get();
