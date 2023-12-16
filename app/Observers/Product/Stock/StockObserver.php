@@ -36,7 +36,7 @@ class StockObserver
      */
     public function deleted(Stock $stock)
     {
-        //
+        $stock->productStocks()->delete();
     }
 
     /**

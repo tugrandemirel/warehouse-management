@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Product;
 use App\Enum\Product\ProductOption\ProductOptionIsActiveEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Product\Store\StoreRequest;
+use App\Http\Requests\Admin\Product\Store\UpdateRequest;
 use App\Models\Stock;
 use Illuminate\Http\Request;
 
@@ -83,8 +84,13 @@ class StockController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Stock $stock)
+    public function update(UpdateRequest $request, Stock $stock)
     {
+        $data = $request->except('_token', '_method');
+        $stock->update($data['data']);
+        $stock->productStocks()->delete();
+        $stock->productStocks()->createMany($data['option']['productStock']);
+        return redirect()->route('admin.product.stock.index')->with('success', 'Stok başarıyla güncellendi.');
 
     }
 
@@ -96,6 +102,6 @@ class StockController extends Controller
      */
     public function destroy(Stock $stock)
     {
-
+        return responseJson(200, 'Stok başarıyla silindi.', $stock->delete());
     }
 }
