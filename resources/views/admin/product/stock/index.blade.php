@@ -207,17 +207,17 @@
                 let id = $(this).data('id');
                 $('#deleteRecordModal').modal('show');
                 $('#delete-record').click(function () {
-                    let url = "{{ route('admin.product.destroy', ['product' => 'id']) }}";
+                    let url = "{{ route('admin.product.stock.destroy', ['stock' => 'id']) }}";
                     url  = url.replace('id', id);
                     $.ajax({
                         url: url,
-                        type: "POST",
+                        type: "DELETE",
                         data: {
                             id: id,
                             _token: "{{ csrf_token() }}"
                         },
                         success: function (response) {
-                            if (response.status === true) {
+                            if (response.status === true || response.status === 200) {
                                 $('#deleteRecordModal').modal('hide');
                                 Swal.fire({
                                     icon: 'success',

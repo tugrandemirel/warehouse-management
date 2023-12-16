@@ -50,12 +50,12 @@
                                 <table class="table">
                                     <thead>
                                     <tr>
-                                        <th>Ürün Kodu</th>
-                                        <th>Ürün Adet</th>
-                                        <th>Ürün Fiyat</th>
-                                        <th>Ürün KDV</th>
-                                        <th>Ürün Toplam</th>
-                                        <th>Ürün Açıklama</th>
+                                        <th>Kodu</th>
+                                        <th>Birim</th>
+                                        <th>Fiyat</th>
+                                        <th>KDV</th>
+                                        <th>Toplam</th>
+                                        <th>Açıklama</th>
                                     </tr>
                                     </thead>
                                     <tbody class="marketPlaces">

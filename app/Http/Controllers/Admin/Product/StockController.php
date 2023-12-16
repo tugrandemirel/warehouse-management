@@ -102,6 +102,9 @@ class StockController extends Controller
      */
     public function destroy(Stock $stock)
     {
-        return responseJson(200, 'Stok başarıyla silindi.', $stock->delete());
+        if ($stock->delete())
+            return responseJson(true, 'Stok başarıyla silindi.');
+        else
+            return responseJson(false, 'Stok silinirken bir hata oluştu.');
     }
 }
