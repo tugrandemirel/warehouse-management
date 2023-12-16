@@ -66,19 +66,18 @@
                                             <input class="form-check-input" type="checkbox" id="checkAll" value="option">
                                         </div>
                                     </th>
-                                    <th class="sort" data-sort="code">Ürün Kodu</th>
-                                    <th class="sort" data-sort="name">Ürün Adı</th>
-                                    <th class="sort" data-sort="qty">Adet</th>
-                                    <th class="sort" data-sort="price">Birim Fiyatı</th>
-                                    <th class="sort" data-sort="vat">Ürün KDV</th>
-                                    <th class="sort" data-sort="color">Total</th>
-                                    <th class="sort" data-sort="date">Oluşturulma Tarihi</th>
+                                    <th class="sort" data-sort="code">Fatura Kodu</th>
+                                    <th class="sort" data-sort="store">Mağaza Adı</th>
+                                    <th class="sort" data-sort="company">Firma Adı</th>
+                                    <th class="sort" data-sort="price">Toplam Tutar</th>
+                                    <th class="sort" data-sort="currency">Para Birimi</th>
+                                    <th class="sort" data-sort="invoice_date">Fatura Tarihi</th>
+                                    <th class="sort" data-sort="date">Fatura Oluşturulma Tarihi</th>
                                     <th class="sort" data-sort="action">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody class="list form-check-all">
                                 @foreach($stocks as $stok)
-                                    @foreach($stok->productOptions as $stokOption)
                                         <tr>
                                         <th scope="row" >
                                             <div class="form-check">
@@ -87,35 +86,34 @@
                                         </th>
                                         <td class="code">
                                             <div class="d-flex align-items-center">
-                                                <div class="flex-grow-1 ms-2 name">{{ $stokOption->product_code }}</div>
+                                                <div class="flex-grow-1 ms-2 name">{{ $stok->invoice_number }}</div>
                                             </div>
                                         </td>
-                                        <td class="name">
+                                        <td class="store">
                                             <div class="d-flex align-items-center">
-                                                <div class="flex-grow-1 ms-2 name">{{ $stok->name }}</div>
+                                                <div class="flex-grow-1 ms-2 name">{{ $stok->store->name }}</div>
                                             </div>
                                         </td>
-                                        <td class="qty">
+                                        <td class="company">
                                             <div class="d-flex align-items-center">
-                                                <div class="flex-grow-1 ms-2 name">{{ $stokOption->price }}</div>
+                                                <div class="flex-grow-1 ms-2 name">{{ $stok->company->name }}</div>
                                             </div>
                                         </td>
                                         <td class="price">
                                             <div class="d-flex align-items-center">
-                                                <div class="flex-grow-1 ms-2 name">{{ $stokOption->price }}</div>
+                                                <div class="flex-grow-1 ms-2 name">{{ $stok->total }}</div>
                                             </div>
                                         </td>
-                                        <td class="vat">
-                                            <div class="d-flex align-items-center">
-                                                <div class="flex-grow-1 ms-2 name">%{{ $stokOption->vat }}</div>
-                                            </div>
-                                        </td>
-                                        <td class="color">
+                                        <td class="currency">
                                             <div class="d-flex align-items-center">
                                                 <div class="flex-grow-1 ms-2 name">
-                                                    <div class="color-box" style="background-color: {{ $stokOption->color }}"></div>
+                                                    {{ $stok->currency->name }}
                                                 </div>
                                             </div>
+                                        </td>
+
+                                        <td class="invoice_date">
+                                            {{ $stok->invoice_date }}
                                         </td>
                                         <td class="date">
                                             {{ $stok->created_at->format('d M, Y') }}
@@ -135,7 +133,6 @@
                                             </ul>
                                         </td>
                                     </tr>
-                                    @endforeach
                                 @endforeach
                                 </tbody>
                             </table>

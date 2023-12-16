@@ -21,16 +21,7 @@ class StockController extends Controller
                     ->with([
                         'currency',
                         'store',
-                        'company',
-                        'productStocks' => function($query) {
-                            $query->with([
-                                'product' => function($query) {
-                                    $query->with([
-                                        'productOptionsIsActive'
-                                    ]);
-                                }
-                            ]);
-                        }
+                        'company'
                     ])
                     ->orderByDesc('id')
                     ->get();
@@ -81,6 +72,7 @@ class StockController extends Controller
         $currencies         = auth()->user()->currencies;
         $measurementUnits   = auth()->user()->measurementUnits;
         $products           = auth()->user()->products()->with('productOptionsIsActive')->get();
+        $stock->load('productStocks');
         return view('admin.product.stock.edit', compact('companies', 'stores', 'currencies', 'measurementUnits', 'products', 'stock'));
     }
 
